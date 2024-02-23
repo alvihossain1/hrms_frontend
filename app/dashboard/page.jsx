@@ -34,7 +34,7 @@ export default function Page() {
           <h3 className="my-1">View Employee Records</h3>
           <p className="my-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae, reiciendis.
             Recusandae minima architecto.</p>
-            <div className="py-2 flex flex-col gap-3 overflow-auto" style={{minHeight: "20vh", maxHeight: "40vh"}}>
+            <div className="py-2 flex flex-col gap-3 overflow-auto" style={{minHeight: "30vh", maxHeight: "45vh"}}>
               <Employee />
             </div>
         </div>

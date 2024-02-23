@@ -22,8 +22,8 @@ export default function Employee() {
         <thead className='bg-slate-700 text-slate-200'>
             <tr className='text-center'>
                 <th className='p-3'>Profile</th>
-                <th>Email</th>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Contact</th>
                 <th>Employee Status</th>
                 <th>Department</th>
@@ -40,8 +40,8 @@ export default function Employee() {
                                 <img class="profile-pic rounded-full text-slate-200" src={`${process.env.SERVER_URL}/${employee.image_url}`} alt="Employee" />
                             </div>
                         </td>
-                        <td>{employee.email}</td>
                         <td>{employee.fname + " " + employee.lname}</td>
+                        <td>{employee.email}</td>
                         <td>{employee.contactNo}</td>
                         <td>{employee.employeeStatus}</td>
                         <td>{employee.departmentName}</td>

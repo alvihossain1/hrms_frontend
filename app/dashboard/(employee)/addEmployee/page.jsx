@@ -41,6 +41,31 @@ export default function AddEmployee() {
         setPositionData(response);
     }
 
+    async function handleSubmit(e) {
+        e.preventDefault();
+        if (!profileImage) {
+            toast.info("User must upload profile picture.");
+            return;
+        }
+        else {
+            const formData = new FormData();
+            const user = { fname, lname, dob, gender, contactNo, email, employeeStatus, address, stateName, departmentName, positionName, hiringDate, terminationDate };
+            formData.append("user", JSON.stringify(user));
+            formData.append("image", profileImage);
+
+            let response = await addEmployeeAPI(formData);
+            if (response.status === 200) {
+                toast.success(response.data);
+                e.target.reset();
+            }
+            else if (response.status === 500) {
+                toast.error(response.data);
+            }
+            console.log(user);
+        }
+
+    }
+
     let dept_list;
     if (departmentData.status === 200) {
         dept_list = departmentData.data.map((dept) => {
@@ -56,31 +81,6 @@ export default function AddEmployee() {
                 <option key={position.position_id} className="cursor-pointer text-slate-800">{position.positionName}</option>
             )
         })
-    }
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        if (!profileImage) {
-            toast.info("User must upload profile picture.");
-            return;
-        }
-        else {
-            const formData = new FormData();
-            const user = { fname, lname, dob, gender, contactNo, email, employeeStatus, address, stateName, departmentName, positionName, hiringDate, terminationDate };
-            formData.append("user", JSON.stringify(user));
-            formData.append("image", profileImage);
-
-            let response = await addEmployeeAPI(formData);
-            if (response.status === 200) {
-                toast.success(`${response.data}, Redirecting to login page in 5s`);
-                e.target.reset();
-            }
-            else if (response.status === 500) {
-                toast.error(response.data);
-            }
-            console.log(user);
-        }
-
     }
 
     return (
