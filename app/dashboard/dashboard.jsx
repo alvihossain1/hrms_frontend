@@ -11,9 +11,12 @@ import {
     faCaretUp,
     faClipboardUser,
     faFile,
-    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faUserXmark, 
+    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faUserXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from '@/components/Footer';
+import { signOut } from 'next-auth/react';
+import CustomToast from '@/components/CustomToast';
+import { useSession } from 'next-auth/react';
 
 export default function Dashboard({ children }) {
 
@@ -25,6 +28,8 @@ export default function Dashboard({ children }) {
     const [employee, setEmployee] = useState(true);
     const [attendance, setAttendance] = useState(false);
     const [tasks, setTasks] = useState(false);
+
+    const { data: session } = useSession();
 
     function sideBarSwitch() {
         if (window.innerWidth > breakdown) {
@@ -56,9 +61,8 @@ export default function Dashboard({ children }) {
         else { setTasks(true) }
     }
 
-    function sidebarWidthControl(){
+    function sidebarWidthControl() {
         setScreenWidth(window.innerWidth);
-        console.log(screenWidth)
         if (window.innerWidth > 950) {
             setSidebar(true)
             setScreenMargin(true)
@@ -74,12 +78,29 @@ export default function Dashboard({ children }) {
         window.addEventListener('resize', sidebarWidthControl);
         return () => {
             window.removeEventListener('resize', sidebarWidthControl);
-          };
-    }, [])
+        };
+    }, []);
+
+
+
+    let profile = session?.user ?
+        <><div className="profile-pic-holder">
+            <img className="profile-pic rounded-full text-slate-200"
+                src={session.user.image} alt='Admin' />
+        </div>
+            <span className="bg-green-500 p-1 rounded-2xl"></span>
+            <div className=''>
+                <p className="pb-0.5 text-slate-300 font-bold"><span className='text-yellow-500'>HR.</span> {session?.user?.name}</p>
+                <p className="text-slate-400 text-xs font-bold">{session?.user?.email}</p>
+            </div>
+        </> :
+        <div className='text-slate-300 text-md'><div className='loader'></div></div>
+
 
     return (
         <main className="main">
             <div className="relative min-h-screen flex bg-slate-200">
+                <CustomToast />
                 <div id="sidebar" className="sidebar h-screen fixed top-0 left-0 right-0 bottom-0 bg-slate-800 text-slate-200" style={{ width: sidebar ? sidebarWidth : "0px" }}>
                     <div className="flex flex-col overflow-hidden">
                         <div className="min-h-[11vh] md:min-h-[9vh] flex justify-center items-center">
@@ -118,17 +139,17 @@ export default function Dashboard({ children }) {
                                     <FontAwesomeIcon className="ml-auto" icon={employee ? faCaretUp : faCaretDown} />
                                 </div>
                                 <div className={`rounded-lg overflow-hidden my-1 ${employee ? "" : "hidden"}`}>
-                                    <Link href="/dashboard/employee/addEmployee"
+                                    <Link href="/dashboard/addEmployee"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faUserPlus} />
                                         <p>Add Employee</p>
                                     </Link>
-                                    <Link href="/dashboard/employee/updateEmployee"
+                                    <Link href="/dashboard/updateEmployee"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faUserPen} />
                                         <p>Update Employee</p>
                                     </Link>
-                                    <Link href="/dashboard/employee/fireEmployee"
+                                    <Link href="/dashboard/fireEmployee"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faUserXmark} />
                                         <p>Fire Employee</p>
@@ -177,12 +198,12 @@ export default function Dashboard({ children }) {
                                     </Link>
                                 </div>
                             </li>
-                            <li className="px-3 py-1">
-                                <Link href="/logout"
+                            <li className="px-3 py-1 w-100">
+                                <div onClick={() => signOut()}
                                     className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faPowerOff} />
                                     <p>Logout</p>
-                                </Link>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -190,12 +211,8 @@ export default function Dashboard({ children }) {
 
                 <div id="navbar" className="navbar min-h-[11vh] md:min-h-[9vh] fixed top-0 right-0 left-0 flex p-2 bg-slate-800" style={{ marginLeft: screenMargin ? sidebarWidth : "0px" }}>
                     <div className="w-full flex">
-                        <div className="profile-content px-2 md:px-5 flex items-center gap-2">
-                            <div className="profile-pic-holder">
-                                <img className="profile-pic rounded-full"
-                                    src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg" />
-                            </div>
-                            <p className="text-slate-200">HR James Charles</p>
+                        <div className="profile-content px-0.5 md:px-2 flex items-center gap-1.5 md:gap-2">
+                            {profile}
                         </div>
                     </div>
                     <div onClick={() => { sideBarSwitch() }}

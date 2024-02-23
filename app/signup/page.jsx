@@ -1,8 +1,12 @@
 "use client"
+import CustomToast from '@/components/CustomToast';
+import { hrmRegister } from '@/lib/api';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function SignUp() {
 
@@ -13,23 +17,43 @@ export default function SignUp() {
     const [profileImage, setProfileImage] = useState("");
     const [terms, setTerms] = useState("");
 
-    function handleSubmit(e) {
+    const router = useRouter();
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        if(!terms){
+        if (!terms) {
             toast.info("Please check in to the terms and conditions.");
             return;
-        }   
-        else{
-            toast.clearWaitingQueue()
-            const object = {fname, lname, email, password, terms, profileImage};
-            console.log("Clicked: ", object)
         }
-        
+        else if (!profileImage) {
+            toast.info("User must upload profile picture.");
+            return;
+        }
+        else {
+            const formData = new FormData();
+            const user = { fname, lname, email, password };
+            formData.append("user", JSON.stringify(user));
+            formData.append("image", profileImage);
+
+            let response = await hrmRegister(formData);
+            if (response.status === 200) {
+                toast.success(`${response.data}, Redirecting to login page in 5s`);
+                e.target.reset()
+                const time = setTimeout(() => {                    
+                    router.replace("/login")
+                    clearTimeout(time)
+                }, 5000)
+            }
+            else if(response.status === 500){
+                toast.error(response.data);
+            }
+        }
+
     }
 
     return (
         <div className="min-h-screen flex justify-center items-center background-theme-signup">
-
+            <CustomToast />
             <div className="w-full mx-2 md:w-10/12 lg:w-8/12 xl:w-3/12 p-2 md:p-0 bg-slate-800 rounded-xl overflow-hidden">
                 <form onSubmit={(e) => { handleSubmit(e) }} className="grid grid-cols-12 p-2 md:p-5">
                     <div className="col-span-12">
@@ -43,7 +67,7 @@ export default function SignUp() {
                             <label className="text-slate-200" htmlFor="fname">First Name <span className='text-pink-600 text-xs'>*</span></label>
                             <input
                                 className="border border-2 rounded-sm border-slate-500 py-1.5 px-2 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
-                                id="fname" type="text" onChange={(e) => {setFname(e.target.value)}} required />
+                                id="fname" type="text" onChange={(e) => { setFname(e.target.value) }} required />
                         </div>
                     </div>
                     <div className="col-span-6">
@@ -51,7 +75,7 @@ export default function SignUp() {
                             <label className="text-slate-200" htmlFor="lname">Last Name <span className='text-pink-600 text-xs'>*</span></label>
                             <input
                                 className="border border-2 rounded-sm border-slate-500 py-1.5 px-2 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
-                                id="lname" type="text" onChange={(e) => {setLname(e.target.value)}} required />
+                                id="lname" type="text" onChange={(e) => { setLname(e.target.value) }} required />
                         </div>
                     </div>
                     <div className="col-span-12">
@@ -59,7 +83,7 @@ export default function SignUp() {
                             <label className="text-slate-200" htmlFor="email">Email <span className='text-pink-600 text-xs'>*</span></label>
                             <input
                                 className="border border-2 rounded-sm border-slate-500 py-1.5 px-2 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
-                                id="email" type="email" onChange={(e) => {setEmail(e.target.value)}} required />
+                                id="email" type="email" onChange={(e) => { setEmail(e.target.value) }} required />
                         </div>
                     </div>
                     <div className="col-span-12">
@@ -67,7 +91,7 @@ export default function SignUp() {
                             <label className="text-slate-200" htmlFor="password">Password <span className='text-pink-600 text-xs'>*</span></label>
                             <input
                                 className="border border-2 rounded-sm border-slate-500 py-1.5 px-2 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
-                                id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} required />
+                                id="password" type="password" onChange={(e) => { setPassword(e.target.value) }} required />
                         </div>
                     </div>
                     <div className="col-span-12">
@@ -84,8 +108,13 @@ export default function SignUp() {
                     </div>
                     <div className="col-span-12">
                         <div className="flex gap-1.5 my-4">
-                            <input className="w-4 cursor-pointer" id='checkbox' type="checkbox" onChange={(e) => {setTerms(e.target.checked)}}/>
+                            <input className="w-4 cursor-pointer" id='checkbox' type="checkbox" onChange={(e) => { setTerms(e.target.checked) }} />
                             <label htmlFor="checkbox" className="text-slate-200 cursor-pointer">I agree with the SignUp terms and conditions <span className='text-pink-600 text-xs'>*</span></label>
+                        </div>
+                    </div>
+                    <div className="col-span-12">
+                        <div className="flex gap-1.5 my-2">
+                            <p className="text-slate-200 text-sm">Go back to login page <Link className="text-purple-500 underline" href="/login">Click Here</Link></p>
                         </div>
                     </div>
                     <div className="col-span-12">

@@ -4,9 +4,7 @@ import Head from "next/head";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import AuthProvider from "./Providers";
-import CustomToast from "@/components/CustomToast";
 config.autoAddCss = false;
-
 
 export const metadata = {
   title: "HRM System",
@@ -26,7 +24,6 @@ export default function RootLayout({ children }) {
       </Head>
       <body>
         <AuthProvider>
-          <CustomToast />
           {children}
         </AuthProvider>
       </body>

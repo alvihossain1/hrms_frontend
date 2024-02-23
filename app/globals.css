@@ -200,3 +200,16 @@ button {
   ::-webkit-scrollbar-thumb:hover {
     background: #7a97b9;
   }
+
+
+  /* LOADER */
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 7px solid;
+    border-color: #a855f7 #0000;
+    animation: spinner 1s infinite;
+  }
+  @keyframes spinner {to{transform: rotate(.5turn)}}
+  /* LOADER */
