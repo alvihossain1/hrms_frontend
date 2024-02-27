@@ -1,52 +1,40 @@
 "use client"
-import { getEmployeeAPI } from '@/lib/api';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-export default function Employee() {
-
-    const [employeeData, setEmployeeData] = useState({});
-
-    useEffect(() => {
-        fetchEmployees();
-    }, [])
-
-    async function fetchEmployees() {
-        const response = await getEmployeeAPI();
-        console.log("RES EMPLOYEE:: ", response);
-        setEmployeeData(response);
-    }
+export default function Employee({employeeData}) {
 
     let employee_list;
     if (employeeData.status === 200) {
         employee_list = <table className='table-fixed'>
         <thead className='bg-slate-700 text-slate-200'>
             <tr className='text-center'>
-                <th className='p-3'>Profile</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Employee Status</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>Hiring Date</th>
+                <th className='p-2.5'><p className='text-sm font-bold'>Profile</p></th>
+                <th><p className='text-sm font-bold'>Name/Email</p></th>
+                <th><p className='text-sm font-bold'>Contact</p></th>
+                <th><p className='text-sm font-bold'>Employee Status</p></th>
+                <th><p className='text-sm font-bold'>Department</p></th>
+                <th><p className='text-sm font-bold'>Position</p></th>
+                <th><p className='text-sm font-bold'>Hiring Date</p></th>
             </tr>
         </thead>
         <tbody>
             {
-                employeeData.data.map(((employee) => (
-                    <tr className='bg-slate-200 text-center border-b-2 border-slate-300'>
+                employeeData.data.map(((emp) => (
+                    <tr key={emp.employeeId} className={`bg-slate-50 text-center text-slate-600 border-b-2 border-slate-200`}>
                         <td className='py-1 flex justify-center items-center'>                            
-                            <div class="profile-pic-holder">
-                                <img class="profile-pic rounded-full text-slate-200" src={`${process.env.SERVER_URL}/${employee.image_url}`} alt="Employee" />
+                            <div className="profile-pic-holder-sm">
+                                <img className="profile-pic rounded-full text-slate-200" src={emp.image_url} alt="Employee" />
                             </div>
                         </td>
-                        <td>{employee.fname + " " + employee.lname}</td>
-                        <td>{employee.email}</td>
-                        <td>{employee.contactNo}</td>
-                        <td>{employee.employeeStatus}</td>
-                        <td>{employee.departmentName}</td>
-                        <td>{employee.positionName}</td>
-                        <td>{employee.hiringDate}</td>
+                        <td>
+                            <p className=' text-sm font-bold'>{emp.fname} {emp.lname}</p>
+                            <p className='text-sky-600 text-xs font-bold'>{emp.email}</p>
+                        </td>
+                        <td><p className='text-sm font-bold'>{emp.contactNo}</p></td>
+                        <td><p className={`${emp.employeeStatus.toLowerCase() === "active" ? "bg-green-600" : emp.employeeStatus.toLowerCase() === "leave" ? "bg-red-600" : "bg-yellow-600"} p-1.5 text-xs font-bold text-slate-50 inline rounded-2xl`}>{emp.employeeStatus}</p></td>
+                        <td><p className='text-sm font-bold'>{emp.departmentName}</p></td>
+                        <td><p className='text-sm font-bold'>{emp.positionName}</p></td>
+                        <td><p className='text-sm font-bold'>{emp.hiringDate}</p></td>
                     </tr>
                 )))
             }

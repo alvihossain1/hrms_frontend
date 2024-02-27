@@ -13,7 +13,8 @@ export const authOptions = {
                 const response = await hrmLogin(loginData);
                 if(response.status === 200){
                     const {email, fname, lname, image_url} = response.data;
-                    const data = {email, name: fname+" "+lname, image: process.env.SERVER_URL+"/"+image_url};
+                    const data = {email, name: `${fname} ${lname}`, image: image_url};
+                    console.log(data)
                     return data;
                 }
                 else{

@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
 export default function AddEmployee() {
+    const bd_states = ["Dhaka", "Barishal", "Chattogram", "Khulna", "Rajshahi", "Rangpur", "Mymensingh", "Sylhet"];
+
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [dob, setDob] = useState("");
@@ -16,14 +18,15 @@ export default function AddEmployee() {
     const [terminationDate, setTerminationDate] = useState("");
     const [profileImage, setProfileImage] = useState("");
     // Selects
-    const [departmentName, setDepartmentName] = useState(null);
-    const [positionName, setPositionName] = useState(null);
     const [stateName, setStateName] = useState("Dhaka")
     const [gender, setGender] = useState("Male");
     const [employeeStatus, setEmployeeStatus] = useState("Active");
+    const [departmentName, setDepartmentName] = useState("");
+    const [positionName, setPositionName] = useState("");    
 
     const [departmentData, setDepartmentData] = useState({});
     const [positionData, setPositionData] = useState({});
+    
 
     useEffect(() => {
         fetchDepartments();
@@ -57,6 +60,7 @@ export default function AddEmployee() {
             if (response.status === 200) {
                 toast.success(response.data);
                 e.target.reset();
+                clearAllFields();
             }
             else if (response.status === 500) {
                 toast.error(response.data);
@@ -64,6 +68,12 @@ export default function AddEmployee() {
             console.log(user);
         }
 
+    }
+
+    function clearAllFields(){
+        setFname(""); setLname(""); setDob(""); setContactNo(""); setEmail(""); setAddress(""); setHiringDate(""); setHiringDate("");
+        setTerminationDate(""); setProfileImage(""); setDepartmentName(""); setPositionName(""); setStateName("Dhaka"); setGender("Male");
+        setEmployeeStatus("Active");
     }
 
     let dept_list;
@@ -84,10 +94,10 @@ export default function AddEmployee() {
     }
 
     return (
-        <div >
-            <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-12 gap-x-1.5 gap-y-5 md:gap-x-4 md:gap-y-10 rounded-xl text-slate-800 p-3 md:py-12 md:px-12 w-full md:w-10/12 mx-auto'>
+        <div>
+            <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-12 gap-x-1.5 gap-y-5 md:gap-x-4 md:gap-y-10 text-slate-800 p-3 md:py-12 md:px-12 w-full md:w-10/12 mx-auto'>
                 <div className="col-span-12">
-                    <h2 className="my-auto">Register an Employee</h2>
+                    <h3 className="my-auto">Register an Employee</h3>
                 </div>
                 <div className="col-span-12 md:col-span-6">
                     <div className="flex flex-col w-full">
@@ -124,7 +134,7 @@ export default function AddEmployee() {
                 <div className="col-span-12 md:col-span-3">
                     <div className="flex flex-col w-full">
                         <label className="my-1">Gender</label>
-                        <select className="border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
+                        <select className="cursor-pointer border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
                             type="text" onChange={(e) => { setGender(e.target.value) }} value={gender} defaultValue="Male" required >
                             <option className="cursor-pointer text-slate-800">Male</option>
                             <option className="cursor-pointer text-slate-800">Female</option>
@@ -146,10 +156,11 @@ export default function AddEmployee() {
                 <div className="col-span-12 md:col-span-6">
                     <div className="flex flex-col w-full">
                         <label className="my-1">Employee Status</label>
-                        <select className="border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
+                        <select className="cursor-pointer border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
                             type="text" onChange={(e) => { setEmployeeStatus(e.target.value) }} value={employeeStatus}  defaultValue="Active" required >
                             <option className="cursor-pointer text-slate-800">Active</option>
                             <option className="cursor-pointer text-slate-800">Leave</option>
+                            <option className="cursor-pointer text-slate-800">On Hold</option>
                         </select>
                     </div>
                 </div>
@@ -166,17 +177,20 @@ export default function AddEmployee() {
                         <label className="my-1">State</label>
                         <select onChange={(e) => { setStateName(e.target.value) }} value={stateName}  required
                             className="cursor-pointer border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500">
-                            <option className="cursor-pointer text-slate-800">Dhaka</option>
-                            <option className="cursor-pointer text-slate-800">Chittagong</option>
-                            <option className="cursor-pointer text-slate-800">Chittagong</option>
-                            <option className="cursor-pointer text-slate-800">Khulna</option>
+                            {
+                                bd_states.map((state, index) => {
+                                    return (
+                                        <option key={121532+index} className="cursor-pointer text-slate-800">{state}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </div>
                 </div>
                 <div className="col-span-12 md:col-span-6">
                     <div className="flex flex-col w-full">
                         <label className="my-1">Department</label>
-                        <select className="border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
+                        <select className="cursor-pointer border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
                             type="text" onChange={(e) => { setDepartmentName(e.target.value) }} value={departmentName} defaultValue={"placeholder"} required >
                             <option value={"placeholder"} className="cursor-pointer text-slate-800">Please Select **</option>
                             {dept_list}
@@ -186,7 +200,7 @@ export default function AddEmployee() {
                 <div className="col-span-12 md:col-span-6">
                     <div className="flex flex-col w-full">
                         <label className="my-1">Position</label>
-                        <select className="border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
+                        <select className="cursor-pointer border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
                             type="text" onChange={(e) => { setPositionName(e.target.value) }} value={positionName} defaultValue={"placeholder"} required >
                             <option value={"placeholder"} className="cursor-pointer text-slate-800">Please Select **</option>
                             {position_list}

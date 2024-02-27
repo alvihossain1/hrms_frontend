@@ -81,7 +81,7 @@ export default function Department() {
 
   return (
     <form onSubmit={(e) => { handleAddDepartment(e) }}>
-      <h2 className="my-2">Add Departments</h2>
+      <h3 className="my-2">Add Departments</h3>
       <div>
         <div className="flex gap-2">
           <input className="w-full py-1.5 px-2 border-2 border-slate-300 caret-purple-500 focus:outline-none focus:border-purple-500 rounded-md" onChange={(e) => { setDeptNameInput(e.target.value) }} value={deptNameInput} />

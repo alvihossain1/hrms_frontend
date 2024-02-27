@@ -88,6 +88,10 @@ button {
     height: 60px;
 }
 
+.profile-pic-holder-sm {
+    width: 50px;
+    height: 50px;
+}
 .profile-pic {
     width: 100%;
     height: 100%;
@@ -153,7 +157,7 @@ button {
 
 .fade-in{
     animation-name: fade-in;
-    animation-duration: 1s;
+    animation-duration: 0.3s;
 }
 @keyframes fade-in {
     from {
@@ -164,42 +168,37 @@ button {
       opacity: 1;
     }
   }
-  .fade-out{
-    animation-name: fade-out;
-    animation-duration: 1s;
-}
-@keyframes fade-out {
-    from {
-        opacity: 1;
-      }
-    to{
-        opacity: 0;
-    }    
+
+
+
+/* SCROLLBAR */
+.scrollbar-sm::-webkit-scrollbar { 
+    width: 6px;
+    height: 6px;
+    cursor: pointer; 
   }
-
-
-
-  /* width */
-::-webkit-scrollbar {
-    width: 6px;    
+  .scrollbar-md::-webkit-scrollbar { 
+    width: 9px;
+    height: 9px;
     cursor: pointer; 
   }
   
   /* Track */
-  ::-webkit-scrollbar-track {
+  .scrollbar::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px rgb(180, 180, 180); 
   }
    
   /* Handle */
-  ::-webkit-scrollbar-thumb {
+  .scrollbar::-webkit-scrollbar-thumb {
     background: #98a7b8;
     cursor: pointer; 
   }
   
   /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+  .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #7a97b9;
   }
+/* SCROLLBAR */
 
 
   /* LOADER */
