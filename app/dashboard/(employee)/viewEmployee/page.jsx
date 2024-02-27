@@ -32,7 +32,7 @@ export default function page() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname + emp.lname).toLowerCase().includes(searchInput)) { return emp };
+      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname+" "+emp.lname).toLowerCase().includes(searchInput)) { return emp };
     }
     ).map((emp) => ((
       <div key={emp.employeeId} className='bg-slate-50 p-1 border-y border-slate-200 p-2'>
@@ -45,7 +45,7 @@ export default function page() {
             <p className='text-sky-600 text-xs font-bold'>{emp.email}</p>
           </div>
           <div className='ml-auto mr-1'>
-            <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-3 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2'>View <FontAwesomeIcon icon={faFile}></FontAwesomeIcon></button>
+            <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-3 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>View <FontAwesomeIcon icon={faFile}></FontAwesomeIcon></button>
           </div>
         </div>
         {selectedId === emp.employeeId ? cardComponent(emp) : ""}
@@ -55,9 +55,9 @@ export default function page() {
 
   function cardComponent(emp) {
     return (
-      <div ref={targetRef} className='w-full grid grid-cols-12 mx-0 my-3 md:mx-2 p-2 md:p-4 border-2 border-slate-200 text-slate-700'>
-        <div className='flex flex-col gap-1 col-span-12 md:col-span-6'>
-          <h6 className='my-1'>Employee Record</h6>
+      <div ref={targetRef} className='w-full h-full grid grid-cols-12 mx-0 my-3 md:mx-2 p-2 md:p-4 border-2 border-slate-200 text-slate-700'>
+        <div className='flex flex-col gap-2.5 col-span-12 md:col-span-6'>
+          <h3 className='my-1'>Employee Record</h3>
           <p className='text-sm'><span className='font-bold'>Name:</span> {emp.fname} {emp.lname}</p>
           <p className='text-sm'><span className='font-bold'>Email:</span> {emp.email}</p>
           <p className='text-sm'><span className='font-bold'>Contact Number:</span> {emp.contactNo}</p>
@@ -78,8 +78,8 @@ export default function page() {
           </div>
         </div>
         <div className='col-span-12 md:col-span-6 flex justify-start md:justify-end'>
-          <div className='overflow-hidden my-1 md:m-0'>
-            <img className='w-[30vh] h-[30vh] object-cover object-center' src={emp.image_url} />
+          <div className='overflow-hidden w-[40vh] h-[40vh] my-1 md:m-0 box-shadow-1'>
+            <img className='h-full w-full object-cover object-center' src={emp.image_url} />
           </div>
         </div>
       </div>
