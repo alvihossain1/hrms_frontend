@@ -44,6 +44,9 @@ export default function SignUp() {
                     clearTimeout(time)
                 }, 5000)
             }
+            else if(response.status === 300){
+                toast.warning(response.data);
+            }
             else if(response.status === 500){
                 toast.error(response.data);
             }

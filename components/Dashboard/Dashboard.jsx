@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import { useRouter } from 'next/navigation';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -30,6 +30,7 @@ export default function Dashboard({ children }) {
     const [tasks, setTasks] = useState(false);
 
     const { data: session } = useSession();
+    const router = useRouter();
 
     function sideBarSwitch() {
         if (window.innerWidth > breakdown) {
@@ -81,6 +82,9 @@ export default function Dashboard({ children }) {
         };
     }, []);
 
+    function logOutOnClick(){
+        signOut()
+    }
 
 
     let profile = session?.user ?
@@ -199,7 +203,7 @@ export default function Dashboard({ children }) {
                                 </div>
                             </li>
                             <li className="px-3 py-1 w-100">
-                                <div onClick={() => signOut()}
+                                <div onClick={() => logOutOnClick()}
                                     className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faPowerOff} />
                                     <p>Logout</p>

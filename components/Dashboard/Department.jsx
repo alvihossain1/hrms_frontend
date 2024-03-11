@@ -38,6 +38,9 @@ export default function Department() {
       setDeptNameInput("");
       fetchDepartments()
     }
+    else if(response.status === 300){
+      toast.warning(response.data);
+    }
     else {
       toast.error(response.data)
     }
@@ -46,11 +49,14 @@ export default function Department() {
   async function handleDeleteDepartment(dept) {
     const response = await deleteDepartmentAPI(dept.department_id);
     if (response.status === 200) {
-      toast.success(`${dept.departmentName} Deleted.`);
+      toast.success(`${dept.departmentName} department deleted successfully.`);
       fetchDepartments();
     }
+    else if(response.status === 300){
+      toast.warning("Nothing to delete");
+    }
     else {
-      toast.error("Couldn't Delete");
+      toast.error("There was an error.")
     }
   }
 
@@ -88,7 +94,7 @@ export default function Department() {
           <button type="submit" className="py-1.5 px-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease shadow-md shadow-slate-400 rounded-md text-md">Add Department</button>
         </div>
         <div className="pt-5 text-slate-800">
-          <h4>Added Departments</h4>
+          <h4>Added Departments {departmentData.status === 200 ? departmentData.data.length : ""}</h4>
           <div className="py-3">
             {dept_list}
           </div>

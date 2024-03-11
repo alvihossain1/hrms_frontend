@@ -12,7 +12,7 @@ export default function Page() {
           Login HRM
         </Link>
         <Link href="/signup" className="my-2 border-2 border-purple-500 text-slate-200 px-3 py-2 hover:bg-purple-500 transition-all duration-300 ease">
-          Login HRM
+          SignUp HRM
         </Link>
         </div> 
         <Link href="/dashboard" className="my-2 border-2 border-purple-500 text-slate-200 px-3 py-2 hover:bg-purple-500 transition-all duration-300 ease">

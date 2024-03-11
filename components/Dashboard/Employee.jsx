@@ -1,4 +1,5 @@
 "use client"
+import { dateFormat } from '@/lib/dateFormat';
 import React from 'react'
 
 export default function Employee({employeeData}) {
@@ -34,7 +35,7 @@ export default function Employee({employeeData}) {
                         <td><p className={`${emp.employeeStatus.toLowerCase() === "active" ? "bg-green-600" : emp.employeeStatus.toLowerCase() === "leave" ? "bg-red-600" : "bg-yellow-600"} p-1.5 text-xs font-bold text-slate-50 inline rounded-2xl`}>{emp.employeeStatus}</p></td>
                         <td><p className='text-sm font-bold'>{emp.departmentName}</p></td>
                         <td><p className='text-sm font-bold'>{emp.positionName}</p></td>
-                        <td><p className='text-sm font-bold'>{emp.hiringDate}</p></td>
+                        <td><p className='text-sm font-bold'>{dateFormat(emp.hiringDate)}</p></td>
                     </tr>
                 )))
             }

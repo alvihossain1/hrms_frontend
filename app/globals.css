@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Outfit';
-  src: url('../fonts/outfit/Outfit-VariableFont_wght.ttf');
+    font-family: 'Outfit';
+    src: url('../fonts/outfit/Outfit-VariableFont_wght.ttf');
 }
 
 * {
@@ -65,20 +65,25 @@ small {
     z-index: 1;
     overflow: auto;
 }
-.navbar{
+
+.navbar {
     margin-left: 300px;
     transition: 0.4s ease;
 }
+
 .data-content {
     margin-left: 300px;
     transition: 0.4s ease;
 }
-#notification-content{
+
+#notification-content {
     z-index: 2;
 }
-.drop-down{
+
+.drop-down {
     transition: 0.4s ease;
 }
+
 button {
     font-size: 1rem;
 }
@@ -92,6 +97,7 @@ button {
     width: 50px;
     height: 50px;
 }
+
 .profile-pic {
     width: 100%;
     height: 100%;
@@ -106,6 +112,7 @@ button {
     background-size: cover;
     background-position: center;
 }
+
 .background-theme-signup {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url("/images/hr_signup.jpg");
     background-repeat: no-repeat;
@@ -115,93 +122,101 @@ button {
 }
 
 /* Form Image upload */
-.file-upload-holder{
+.file-upload-holder {
     border: 2px solid var(--border-color);
     border-radius: 5px;
 }
-.file-upload-button{
+
+.file-upload-button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     border: none;
     color: black;
     transition: 0.4s ease;
     cursor: pointer;
-    border-right: 2px solid var(--border-color); 
+    border-right: 2px solid var(--border-color);
 }
 
-.file-upload-button:hover{
-    background-color: rgb(53, 53, 53);;
+.file-upload-button:hover {
+    background-color: rgb(53, 53, 53);
+    ;
     color: white;
     border-radius: 5px;
 }
+
 /* Form Image upload */
 
 /* SIDEBAR ALIGNMENTS */
 @media screen and (max-width: 950px) {
-    .sidebar{
+    .sidebar {
         width: 0px;
     }
-    .data-content{
-        margin-left: 0px;
-    }
-    .navbar{
-        margin-left: 0px;
-    }
-  }
 
-.box-shadow-1{
+    .data-content {
+        margin-left: 0px;
+    }
+
+    .navbar {
+        margin-left: 0px;
+    }
+}
+
+.box-shadow-1 {
     box-shadow: 0 0 7px rgb(151, 151, 151)
 }
 
 /* TRANSITIONS */
 
-.fade-in{
+.fade-in {
     animation-name: fade-in;
     animation-duration: 0.3s;
 }
+
 @keyframes fade-in {
     from {
-      opacity: 0;
+        opacity: 0;
     }
-  
+
     to {
-      opacity: 1;
+        opacity: 1;
     }
-  }
+}
 
 
 
 /* SCROLLBAR */
-.scrollbar-sm::-webkit-scrollbar { 
+.scrollbar-sm::-webkit-scrollbar {
     width: 6px;
     height: 6px;
-    cursor: pointer; 
-  }
-  .scrollbar-md::-webkit-scrollbar { 
+    cursor: pointer;
+}
+
+.scrollbar-md::-webkit-scrollbar {
     width: 9px;
     height: 9px;
-    cursor: pointer; 
-  }
-  
-  /* Track */
-  .scrollbar::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgb(180, 180, 180); 
-  }
-   
-  /* Handle */
-  .scrollbar::-webkit-scrollbar-thumb {
+    cursor: pointer;
+}
+
+/* Track */
+.scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(180, 180, 180);
+}
+
+/* Handle */
+.scrollbar::-webkit-scrollbar-thumb {
     background: #98a7b8;
-    cursor: pointer; 
-  }
-  
-  /* Handle on hover */
-  .scrollbar::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+}
+
+/* Handle on hover */
+.scrollbar::-webkit-scrollbar-thumb:hover {
     background: #7a97b9;
-  }
+}
+
 /* SCROLLBAR */
 
 
-  /* LOADER */
+/* LOADER */
 .loader {
     width: 50px;
     aspect-ratio: 1;
@@ -209,6 +224,12 @@ button {
     border: 7px solid;
     border-color: #a855f7 #0000;
     animation: spinner 1s infinite;
-  }
-  @keyframes spinner {to{transform: rotate(.5turn)}}
-  /* LOADER */
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(.5turn)
+    }
+}
+
+/* LOADER */
