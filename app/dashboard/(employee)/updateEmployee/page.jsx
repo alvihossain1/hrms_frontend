@@ -1,5 +1,5 @@
 "use client"
-import { getDepartmentsAPI, getEmployeeAPI, getPositionsAPI, updateEmployeeAPI } from '@/lib/api';
+import { getDepartmentsAPI, getEmployeeAPI, getPositionsAPI, removeEmployeeAPI, updateEmployeeAPI } from '@/lib/api';
 import { dateFormat } from '@/lib/dateFormat';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -78,7 +78,21 @@ export default function UpdateEmployee() {
     else{
       toast.info("Update was not processed.")
     }
+  }
 
+  async function removeEmployeeBtnOnClick(e, emp){
+    e.preventDefault();
+    const data = {employeeId: emp.employeeId}
+    const response = await removeEmployeeAPI(data);
+    if(response.status === 200){
+      toast.success("Employee has been removed");
+      setUpdate(false);
+      setSelectedId(-1);
+      fetchEmployees();
+    }
+    else{
+      toast.info("Delete was not processed.")
+    }
   }
 
   // 
@@ -213,11 +227,13 @@ export default function UpdateEmployee() {
             )))}
           </select>
         </div>
-        <div className='mt-2 flex gap-2'>          
+        <div className='mt-2 flex flex-wrap gap-2'>          
           <button onClick={() => setUpdate(false)}
             className='px-10 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Cancel</button>
             <button onClick={(e) => confirmUpdateBtnOnClick(e, emp)}
             className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Confirm Update</button>
+             <button onClick={(e) => removeEmployeeBtnOnClick(e, emp)}
+            className='ml-auto px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Remove Employee</button>
         </div>
       </div>
     )
