@@ -27,13 +27,13 @@ export default function ViewEmployee() {
 
   function pdfDownload(emp) {
     let name = emp.email.split("@")[0];
-    generatePDF(targetRef, {filename: `employee_${name}.pdf`});
+    generatePDF(targetRef, { filename: `employee_${name}.pdf` });
   }
 
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname+" "+emp.lname).toLowerCase().includes(searchInput)) { return emp };
+      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput)) { return emp };
     }
     ).map((emp) => ((
       <div key={emp.employeeId} className='bg-slate-50 p-1 border-y border-slate-200 p-2'>
@@ -73,6 +73,16 @@ export default function ViewEmployee() {
           <p className='text-sm'><span className='font-bold'>Termination Date:</span> {dateFormat(emp.terminationDate)}</p>
           <p className='text-sm'><span className='font-bold'>Created:</span> {new Date(emp.createdAt).toUTCString()}</p>
           <p className='text-sm'><span className='font-bold'>Last Update:</span> {new Date(emp.updatedAt).toUTCString()}</p>
+
+          {emp?.salary_tbl !== null ? <div className='p-2 flex flex-col gap-1 border-2 border-slate-200'>
+            <h6 className='mb-1.5'>Salary Details</h6>
+            <p className='text-sm'><span className='font-bold'>Base Salary:</span> {emp.salary_tbl.baseSalary}</p>
+            <p className='text-sm'><span className='font-bold'>Bonus Salary:</span> {emp.salary_tbl.bonus}</p>
+            <p className='text-sm'><span className='font-bold'>Allowance Salary:</span> {emp.salary_tbl.allowance}</p>
+            <p className='text-sm'><span className='font-bold'>Benefits Salary:</span> {emp.salary_tbl.benefits}</p>
+            <p className='text-sm'><span className='font-bold'>Total Salary:</span> {emp.salary_tbl.total}</p>
+          </div> : <div className='p-2 flex flex-col gap-1 border-2 border-slate-200'><p className='text-sm font-bold text-red-600'>No salary Info</p></div>}
+
           <div className='mt-2'>
             <button onClick={() => pdfDownload(emp)}
               className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Download Data</button>
@@ -95,7 +105,7 @@ export default function ViewEmployee() {
       </div>
       <div>
         <p className='my-1'>Search an Employee by name or email</p>
-        <input className='w-full border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' type='text' onChange={(e) => {setSearchInput(e.target.value); setSelectedId(-1);}} value={searchInput} placeholder='Name or Email'/>
+        <input className='w-full border border-2 border-slate-300 py-2 px-2.5 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' type='text' onChange={(e) => { setSearchInput(e.target.value); setSelectedId(-1); }} value={searchInput} placeholder='Name or Email' />
       </div>
       <div>
         {employeeData.status === 200 ? emp_list : <div className='loader'></div>}

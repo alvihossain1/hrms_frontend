@@ -82,7 +82,7 @@ export default function UpdateEmployee() {
 
   async function removeEmployeeBtnOnClick(e, emp){
     e.preventDefault();
-    const data = {employeeId: emp.employeeId}
+    const data = {employeeId: emp.employeeId, image_url: emp.image_url}
     const response = await removeEmployeeAPI(data);
     if(response.status === 200){
       toast.success("Employee has been removed");

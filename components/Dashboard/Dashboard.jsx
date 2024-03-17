@@ -11,7 +11,7 @@ import {
     faCaretUp,
     faClipboardUser,
     faFile,
-    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faUserXmark,
+    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from '@/components/Footer';
 import { signOut } from 'next-auth/react';
@@ -27,6 +27,7 @@ export default function Dashboard({ children }) {
     const [screenMargin, setScreenMargin] = useState(true)
     const [employee, setEmployee] = useState(true);
     const [attendance, setAttendance] = useState(false);
+    const [salary, setSalary] = useState(false);
     const [tasks, setTasks] = useState(false);
 
     const { data: session } = useSession();
@@ -52,6 +53,10 @@ export default function Dashboard({ children }) {
     function employeeBar() {
         if (employee) { setEmployee(false) }
         else { setEmployee(true) }
+    }
+    function salaryBar() {
+        if (salary) { setSalary(false) }
+        else { setSalary(true) }
     }
     function attendanceBar() {
         if (attendance) { setAttendance(false) }
@@ -143,21 +148,42 @@ export default function Dashboard({ children }) {
                                     <FontAwesomeIcon className="ml-auto" icon={employee ? faCaretUp : faCaretDown} />
                                 </div>
                                 <div className={`rounded-lg overflow-hidden my-1 ${employee ? "" : "hidden"}`}>
-                                    <Link href="/dashboard/addEmployee"
-                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
-                                        <FontAwesomeIcon icon={faUserPlus} />
-                                        <p>Add Employee</p>
-                                    </Link>
                                     <Link href="/dashboard/viewEmployee"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
-                                        <FontAwesomeIcon icon={faUserXmark} />
+                                        <FontAwesomeIcon icon={faUserCheck} />
                                         <p>View Employee</p>
                                     </Link>
                                     <Link href="/dashboard/updateEmployee"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faUserPen} />
                                         <p>Update Employee</p>
-                                    </Link>                                    
+                                    </Link>
+                                    <Link href="/dashboard/addEmployee"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faUserPlus} />
+                                        <p>Add Employee</p>
+                                    </Link>                                                                        
+                                </div>
+                            </li>
+                            {/* Salary Bar */}
+                            <li className="px-3 py-1">
+                                <div onClick={() => salaryBar()}
+                                    className="flex items-center gap-2 p-3 w-full rounded-lg bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
+                                    <FontAwesomeIcon icon={faHandHoldingDollar} />
+                                    <p>Salary</p>
+                                    <FontAwesomeIcon className="ml-auto" icon={salary ? faCaretUp : faCaretDown} />
+                                </div>
+                                <div className={`rounded-lg overflow-hidden my-1 ${salary ? "" : "hidden"}`}>
+                                    <Link href="/dashboard/addSalary"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faSackDollar} />
+                                        <p>Add Employee Salary</p>
+                                    </Link>
+                                    <Link href="/dashboard/updateSalary"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faMoneyCheckDollar} />
+                                        <p>Update Employee Salary</p>
+                                    </Link>
                                 </div>
                             </li>
                             {/* Attendance Bar */}
