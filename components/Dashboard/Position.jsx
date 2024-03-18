@@ -47,7 +47,7 @@ export default function Position() {
   }
 
   async function handleDeletePosition(pos) {
-    const response = await deletePositionAPI(pos.position_id);
+    const response = await deletePositionAPI(pos.positionId);
     if (response.status === 200) {
       toast.success(`${pos.positionName} position deleted successfully.`);
       fetchPositions();
@@ -63,7 +63,7 @@ export default function Position() {
   let pos_list;
   if (positionData.status === 200) {
     pos_list = positionData.data.map(((pos) => (
-      <li key={pos.position_id} className="py-1 border-b-2 border-slate-200 flex justify-between items-center">
+      <li key={pos.positionId} className="py-1 border-b-2 border-slate-200 flex justify-between items-center">
         <p className="text-lg">{pos.positionName}</p>
         <FontAwesomeIcon onClick={() => { handleDeletePosition(pos) }} className="px-2 hover:text-purple-500 cursor-pointer transition-all duration-300 ease" icon={faTrash}></FontAwesomeIcon>
       </li>

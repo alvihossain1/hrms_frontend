@@ -47,7 +47,7 @@ export default function Department() {
   }
 
   async function handleDeleteDepartment(dept) {
-    const response = await deleteDepartmentAPI(dept.department_id);
+    const response = await deleteDepartmentAPI(dept.departmentId);
     if (response.status === 200) {
       toast.success(`${dept.departmentName} department deleted successfully.`);
       fetchDepartments();
@@ -63,7 +63,7 @@ export default function Department() {
   let dept_list;
   if (departmentData.status === 200) {
     dept_list = departmentData.data.map(((dept) => (
-      <li key={dept.department_id} className="py-1 border-b-2 border-slate-200 flex justify-between items-center">
+      <li key={dept.departmentId} className="py-1 border-b-2 border-slate-200 flex justify-between items-center">
         <p className="text-lg">{dept.departmentName}</p>
         <FontAwesomeIcon onClick={() => { handleDeleteDepartment(dept) }} className="px-2 hover:text-purple-500 cursor-pointer transition-all duration-300 ease" icon={faTrash}></FontAwesomeIcon>
       </li>

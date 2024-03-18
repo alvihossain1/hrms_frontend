@@ -76,7 +76,7 @@ export default function UpdateSalary() {
             <p className='text-sky-600 text-xs font-bold'>{emp.email}</p>
           </div>
           <div className='ml-auto mr-1'>
-            <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-4 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Add <FontAwesomeIcon icon={faHandHoldingDollar}></FontAwesomeIcon></button>
+            <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-4 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Update <FontAwesomeIcon icon={faHandHoldingDollar}></FontAwesomeIcon></button>
           </div>
         </div>
         {selectedId === emp.employeeId ? cardComponent(emp) : ""}
@@ -135,7 +135,7 @@ export default function UpdateSalary() {
         <div className='col-span-12'>
           <div className='mt-2 flex flex-wrap gap-2'>
             <button onClick={(e) => handleSubmit(e, emp.salary_tbl.salaryId)}
-              className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Add Salary</button>
+              className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Update Salary</button>
           </div>
         </div>
       </div>
