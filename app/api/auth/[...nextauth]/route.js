@@ -12,10 +12,10 @@ export const authOptions = {
                 const loginData = {email: credentials.email, password: credentials.password};
                 const response = await hrmLogin(loginData);
                 if(response.status === 200){
-                    const {email, fname, lname, image_url} = response.data;
-                    const data = {email, name: `${fname} ${lname}`, image: image_url};
-                    console.log(data)
-                    return data;
+                    const {email, fname, lname, image_url, userId} = response.data;
+                    const user = {email, name: `${fname} ${lname}`, image: image_url, userId: userId};
+                    console.log(user)
+                    return user;
                 }
                 else{
                     // const defaultData = {email: "admin@gmail.com", name: "Dallas Admin", image: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg"}
@@ -25,17 +25,31 @@ export const authOptions = {
             },
         })
     ],
+    callbacks: {
+        async jwt({token, user, session}){
+            // console.log("JWT Callback:: ", {token, user, session});
+            if(user){
+                return {
+                    ...token,
+                    userId: user.userId
+                };
+            }            
+            return token;
+        },
+        async session({session, token, user}){
+            // console.log("Session Callback:: ", {user, session});
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    userId: token.userId,
+                }
+            };
+        }
+    },
     session: {
         strategy: "jwt",
     },
-    // callbacks: {
-    //     session({session, user}){
-    //         session.user.fname = user.fname;
-    //         session.user.lanme = user.lname;
-    //         session.user.image_url = user.image_url;
-    //         return session;
-    //     }
-    // },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",

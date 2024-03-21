@@ -181,8 +181,37 @@ button {
         opacity: 1;
     }
 }
+.drop-up {
+    display: none;
+    animation-name: drop-up;
+    animation-duration: 0.3s;
+}
+@keyframes drop-up {
+    from {
+        display: block;
+        height: 100%;
+    }
 
+    to {
+        display: none;
+        height: 0;
+    }
+}
 
+.drop-down {
+    animation-name: drop-down;
+    animation-duration: 0.3s;
+}
+@keyframes drop-down {
+    from {
+        display: none;
+        height: 0;
+    }
+    to {
+        display: block;
+        height: 100%;
+    }
+}
 
 /* SCROLLBAR */
 .scrollbar-sm::-webkit-scrollbar {

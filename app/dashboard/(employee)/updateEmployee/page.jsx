@@ -61,17 +61,19 @@ export default function UpdateEmployee() {
     setAddress(emp.address); setContactNo(emp.contactNo);
     setEmployeeStatus(emp.employeeStatus);
     setDepartmentName(emp.departmentName); setPositionName(emp.positionName);
+    setTerminationDate(emp.terminationDate);
 
   }
 
   async function confirmUpdateBtnOnClick(e, emp){
     e.preventDefault()
     const employeeId = emp.employeeId;
-    const user = { employeeId, fname, lname, contactNo, address, stateName, employeeStatus, departmentName, positionName };
+    const user = { employeeId, fname, lname, contactNo, address, stateName, employeeStatus, departmentName, positionName, terminationDate };
     console.log(user);
     const response = await updateEmployeeAPI(user);
     if(response.status === 200){
       toast.success(response.data);
+      clearAllFields();
       fetchEmployees();
       setUpdate(false);
     }
@@ -94,6 +96,12 @@ export default function UpdateEmployee() {
       toast.info("Delete was not processed.")
     }
   }
+
+  function clearAllFields(){
+    setFname(""); setLname(""); setContactNo(""); setAddress(""); setTerminationDate(""); 
+    setProfileImage(""); setDepartmentName(""); setPositionName(""); setStateName("Dhaka");
+    setEmployeeStatus("Active");
+}
 
   // 
   let dept_list;
@@ -130,7 +138,7 @@ export default function UpdateEmployee() {
             <p className='text-sky-600 text-xs font-bold'>{emp.email}</p>
           </div>
           <div className='ml-auto mr-1'>
-            <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-4 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Update <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon></button>
+            <button onClick={() => {setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1); clearAllFields()}} className='px-4 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Update <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon></button>
           </div>
         </div>
         {selectedId === emp.employeeId ? cardComponent(emp) : ""}
@@ -190,8 +198,21 @@ export default function UpdateEmployee() {
           <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={address} onChange={(e) => setAddress(e.target.value)} />
         </div>
         <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Change Termination Date:</p>
+          <input type='date' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={terminationDate} onChange={(e) => setTerminationDate(e.target.value)} />
+        </div>
+        <div className='flex gap-2'>
           <p className='text-sm font-bold my-auto'>Change Number:</p>
           <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={contactNo} onChange={(e) => setContactNo(e.target.value)} />
+        </div>
+        <div className="flex gap-2">
+          <p className="text-sm font-bold my-auto">Change State Name:</p>
+          <select className="cursor-pointer py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
+            type="text" onChange={(e) => { setStateName(e.target.value) }} value={stateName} >
+            {bd_states.map(state => ((
+              <option key={state} className="cursor-pointer text-slate-800">{state}</option>
+            )))}
+          </select>
         </div>
         <div className="flex gap-2">
           <p className="text-sm font-bold my-auto">Employee Status:</p>
@@ -216,15 +237,6 @@ export default function UpdateEmployee() {
             type="text" onChange={(e) => { setPositionName(e.target.value) }} value={positionName} >
             <option className="cursor-pointer text-slate-800">** Please Select **</option>
             {position_list}
-          </select>
-        </div>
-        <div className="flex gap-2">
-          <p className="text-sm font-bold my-auto">Change State Name:</p>
-          <select className="cursor-pointer py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500"
-            type="text" onChange={(e) => { setStateName(e.target.value) }} value={stateName} >
-            {bd_states.map(state => ((
-              <option key={state} className="cursor-pointer text-slate-800">{state}</option>
-            )))}
           </select>
         </div>
         <div className='mt-2 flex flex-wrap gap-2'>          

@@ -30,6 +30,8 @@ export default function Dashboard({ children }) {
     const [salary, setSalary] = useState(false);
     const [tasks, setTasks] = useState(false);
 
+    const [dropdownNav, setDropdownNav] = useState(false);
+
     const { data: session } = useSession();
     const router = useRouter();
 
@@ -87,22 +89,34 @@ export default function Dashboard({ children }) {
         };
     }, []);
 
-    function logOutOnClick(){
+    function logOutOnClick() {
         signOut()
     }
 
 
     let profile = session?.user ?
-        <><div className="profile-pic-holder">
-            <img className="profile-pic rounded-full text-slate-200"
-                src={session.user.image} alt='Admin' />
-        </div>
-            <span className="bg-green-500 p-1 rounded-2xl"></span>
+        <div>
+            <div className='flex items-center justify-center gap-1.5 cursor-pointer' onClick={() => {!dropdownNav ? setDropdownNav(true) : setDropdownNav(false)}}>
+            <div className="profile-pic-holder">
+                <img className="profile-pic rounded-full text-slate-200"
+                    src={session.user.image} alt='Admin' />
+            </div>
+            <span className="bg-green-500 p-1 rounded-2xl inline"></span>
             <div className=''>
                 <p className="pb-0.5 text-slate-300 font-bold"><span className='text-yellow-500'>HR.</span> {session?.user?.name}</p>
                 <p className="text-slate-400 text-xs font-bold">{session?.user?.email}</p>
             </div>
-        </> :
+            </div>
+            <div className={`top-[10vh] md:top-[9vh] absolute py-2 px-3 bg-slate-800 text-slate-300 rounded-b-xl overflow-hidden ${!dropdownNav ? 'hidden' : ''}`}>
+                <div className='overflow-hidden max-w-[200px] m-auto pb-1.5 text-sm font-bold border-b-2 border-slate-700'>
+                    <img className='profile-pic rounded-md' src={session.user.image} alt='Admin'/>
+                </div>
+                <p className='px-3 py-1.5 my-0.5 text-sm font-bold border-b-2 border-slate-700'>{session?.user?.name}</p>
+                <p className='px-3 py-1.5 my-0.5 text-sm font-bold border-b-2 border-slate-700'>{session?.user?.email}</p>
+                <p className='px-3 py-1.5 my-0.5 text-sm font-bold border-b-2 border-slate-700'>Db_Id: <span className='text-purple-500'>{session?.user?.userId}</span></p>
+                <p className='px-3 py-1.5 my-0.5 text-sm font-bold cursor-pointer hover:bg-purple-500 transition-all duration-300 ease' onClick={() =>logOutOnClick()}>Logout</p>
+            </div>
+        </div> :
         <div className='text-slate-300 text-md'><div className='loader'></div></div>
 
 
@@ -162,7 +176,7 @@ export default function Dashboard({ children }) {
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faUserPlus} />
                                         <p>Add Employee</p>
-                                    </Link>                                                                        
+                                    </Link>
                                 </div>
                             </li>
                             {/* Salary Bar */}
