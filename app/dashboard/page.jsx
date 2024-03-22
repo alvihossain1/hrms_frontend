@@ -3,22 +3,31 @@
 import Department from "@/components/Dashboard/Department";
 import Employee from "@/components/Dashboard/Employee";
 import Position from "@/components/Dashboard/Position";
-import { getEmployeeAPI } from "@/lib/api";
+import { getEmployeeAPI, getEmployeeByDateAttendedAPI } from "@/lib/api";
+import { dateFormat, defaultDateNow } from "@/lib/dateFormat";
 import { useEffect, useState } from "react";
 
 export default function Page() {
 
   const [employeeData, setEmployeeData] = useState({});
+  const [attendanceData, setAttendanceData] = useState({});
 
 
   useEffect(() => {
     fetchEmployees();
+    fetchAttendanceToday();
   }, [])
 
   async function fetchEmployees() {
     const response = await getEmployeeAPI();
     console.log("RES EMPLOYEE:: ", response);
     setEmployeeData(response);
+  }
+
+  async function fetchAttendanceToday(){
+    const response = await getEmployeeByDateAttendedAPI(defaultDateNow());
+    console.log("RES EMP Attendance::", response);
+    setAttendanceData(response);
   }
 
   function employeeActiveCount() {
@@ -60,9 +69,9 @@ export default function Page() {
           <p className="my-3">Total number of Employees at Leave at the moment.</p>
         </div>
         <div className="col-span-12 md:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg">
-          <h2 className="my-3">Assigned Task</h2>
-          <h3 className="my-3">0</h3>
-          <p className="my-3">Total number of Employees assigned tasks at the moment.</p>
+          <h2 className="my-3">Today's Attendance</h2>
+          <h3 className="my-3">{attendanceData.status === 200 || attendanceData.status === 0 ? attendanceData.data.length : ".."} / {employeeData.status === 200 ? employeeData.data.length : ".."}</h3>
+          <p className="my-3">Total number of Employees who attended today of - {dateFormat(Date.now())}</p>
         </div>
         {/* VIEW EMPLOYEE RECORDS */}
         <div className="col-span-12 lg:col-span-12 rounded-lg bg-slate-50 box-shadow-1 text-slate-800 overflow-hidden">

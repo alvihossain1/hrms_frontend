@@ -61,7 +61,7 @@ export default function UpdateSalary() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if ((emp.email.toLowerCase().includes(searchInput) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput)) && emp?.salary_tbl !== null) {
+      if ((emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) && emp?.salary_tbl !== null) {
         return emp
       };
     }

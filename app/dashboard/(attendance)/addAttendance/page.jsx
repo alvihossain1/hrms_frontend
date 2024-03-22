@@ -63,7 +63,7 @@ export default function AddAttendance() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput)) {
+      if (emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) {
         return emp
       };
     }

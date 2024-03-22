@@ -33,7 +33,7 @@ export default function ViewEmployee() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput)) { return emp };
+      if (emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) { return emp };
     }
     ).map((emp) => ((
       <div key={emp.employeeId} className='bg-slate-50 p-1 border-y border-slate-200 p-2'>
