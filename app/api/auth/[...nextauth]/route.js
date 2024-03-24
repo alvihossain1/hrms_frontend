@@ -1,7 +1,7 @@
-import { Users } from "@/helpers/constants";
 import { hrmLogin } from "@/lib/api";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+var bcrypt = require('bcryptjs');
 
 export const authOptions = {
     providers: [
@@ -12,10 +12,18 @@ export const authOptions = {
                 const loginData = {email: credentials.email, password: credentials.password};
                 const response = await hrmLogin(loginData);
                 if(response.status === 200){
-                    const {email, fname, lname, image_url, userId} = response.data;
-                    const user = {email, name: `${fname} ${lname}`, image: image_url, userId: userId};
-                    console.log(user)
-                    return user;
+                    const {email, fname, lname, image_url, userId, password} = response.data;                 
+                    const compare_hash = bcrypt.compareSync(loginData.password, password);
+
+                    if(compare_hash){
+                        const user = {email, name: `${fname} ${lname}`, image: image_url, userId: userId};
+                        console.log(user)
+                        return user;
+                    }
+                    else{
+                        return null;
+                    }
+                    
                 }
                 else{
                     // const defaultData = {email: "admin@gmail.com", name: "Dallas Admin", image: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg"}

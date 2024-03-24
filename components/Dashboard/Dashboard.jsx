@@ -11,7 +11,7 @@ import {
     faCaretUp,
     faClipboardUser,
     faFile,
-    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck,
+    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck, faEraser,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from '@/components/Footer';
 import { signOut } from 'next-auth/react';
@@ -214,6 +214,11 @@ export default function Dashboard({ children }) {
                                         <FontAwesomeIcon icon={faPlus} />
                                         <p>Add Employee Attendance</p>
                                     </Link>
+                                    <Link href="/dashboard/addAttendanceManual"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faEraser} />
+                                        <p>Add Attendance Manual</p>
+                                    </Link>
                                     <Link href="/dashboard/viewAttendance"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faFile} />
@@ -230,7 +235,7 @@ export default function Dashboard({ children }) {
                                     <FontAwesomeIcon className="ml-auto" icon={tasks ? faCaretUp : faCaretDown} />
                                 </div>
                                 <div className={`rounded-lg overflow-hidden my-1 ${tasks ? "" : "hidden"}`}>
-                                    <Link href="/dashboard/assignTasks"
+                                    <Link href="/dashboard/assignTask"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faPlus} />
                                         <p>Assign Task</p>

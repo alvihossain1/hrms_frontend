@@ -92,11 +92,11 @@ export default function UpdateSalary() {
         </div>
         <div className='col-span-12'>
           <p className='text-sm font-bold my-auto'>Previous Salary Info</p>
-          <p className='text-sm font-bold my-auto'>Base Salary: {emp.salary_tbl.baseSalary}</p>
-          <p className='text-sm font-bold my-auto'>Bonus: {emp.salary_tbl.bonus}</p>
-          <p className='text-sm font-bold my-auto'>Allowance: {emp.salary_tbl.allowance}</p>
-          <p className='text-sm font-bold my-auto'>Benefits: {emp.salary_tbl.benefits}</p>
-          <p className='text-sm font-bold my-auto'>Total: {emp.salary_tbl.total}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Base Salary:</span> {emp.salary_tbl.baseSalary}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Bonus:</span> {emp.salary_tbl.bonus}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Allowance:</span> {emp.salary_tbl.allowance}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Benefits:</span> {emp.salary_tbl.benefits}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Total:</span> {emp.salary_tbl.total}</p>
         </div>
         <div className='col-span-12'>
           <div className='border-b-2 my-2 border-slate-200'>
@@ -129,7 +129,7 @@ export default function UpdateSalary() {
         </div>
         <div className='col-span-12'>
           <div className='mt-2 flex flex-wrap gap-2'>
-            <p className='text-sm font-bold my-auto'>Total Salary: {total}</p>
+            <p className='text-sm my-auto'><span className='font-bold'>Total Salary:</span> {total}</p>
           </div>
         </div>
         <div className='col-span-12'>

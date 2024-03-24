@@ -24,7 +24,7 @@ export default function Login() {
                 redirect: false,
             });
             if (res.error) {
-                toast.error("Username or password is incorrect");
+                toast.error("Email or Password is incorrect");
             }
             else {
                 router.replace("/dashboard");

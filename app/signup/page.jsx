@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+var bcrypt = require('bcryptjs');
 
 export default function SignUp() {
 
@@ -30,8 +31,12 @@ export default function SignUp() {
             return;
         }
         else {
+
+            var salt_rounds = bcrypt.genSaltSync(parseInt(process.env.SALT));
+            var hash_password = await bcrypt.hashSync(password, salt_rounds);
+
             const formData = new FormData();
-            const user = { fname, lname, email, password };
+            const user = { fname, lname, email, password: hash_password };
             formData.append("user", JSON.stringify(user));
             formData.append("image", profileImage);
 

@@ -8,6 +8,7 @@ const nextConfig = {
         ORG_NAME: process.env.ORG_NAME,
         ORG_ADDRESS: process.env.ORG_ADDRESS,
         ORG_IMAGE: process.env.ORG_IMAGE,
+        SALT: process.env.SALT,
       },
 };
 

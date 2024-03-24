@@ -29,7 +29,9 @@ export default function AddAttendance() {
     async function submitDate(e){
         e.preventDefault();
         setDate(e.target.value);
-        fetchEmployeesByDate(e.target.value);
+        if(e.target.value.length !== 0){
+            fetchEmployeesByDate(e.target.value); 
+        }
     }
 
 
@@ -84,7 +86,7 @@ export default function AddAttendance() {
             </div>
             <div>
                 <div className='mb-2 flex flex-wrap justify-between items-center'>
-                    <h6 className='mb-2 text-slate-700'>View attendance of {dateFormat(date)}</h6>
+                    <h6 className='mb-2 text-slate-700'>Attendance on - {dateFormat(date)}</h6>
                     <div className='flex gap-2'>
                         <p className='text-sm font-bold my-auto'>Change Date:</p>
                         <input type='date' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => submitDate(e)} value={date} />                       

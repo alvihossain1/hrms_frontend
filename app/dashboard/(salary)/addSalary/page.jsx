@@ -117,7 +117,7 @@ export default function AddSalary() {
         </div>
         <div className='col-span-12'>
         <div className='mt-2 flex flex-wrap gap-2'>
-          <p className='text-sm font-bold my-auto'>Total Salary: {total}</p>
+          <p className='text-sm my-auto'><span className='font-bold'>Total Salary:</span> {total}</p>
         </div>
         </div>
         <div className='col-span-12'>
