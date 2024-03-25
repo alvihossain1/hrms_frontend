@@ -1,12 +1,12 @@
 "use client"
-import { getEmployeeAPI } from '@/lib/api';
+import { getEmployeeMinFieldsAPI } from '@/lib/api';
 import { dateFormat } from '@/lib/dateFormat';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-export default function AddAttendance() {
+export default function BaseTemplate() {
 
   const [employeeData, setEmployeeData] = useState({});
 
@@ -21,7 +21,7 @@ export default function AddAttendance() {
   }, [])
 
   async function fetchEmployees() {
-    const response = await getEmployeeAPI();
+    const response = await getEmployeeMinFieldsAPI();
     console.log("RES EMPLOYEE:: ", response);
     setEmployeeData(response);
   }
@@ -30,7 +30,7 @@ export default function AddAttendance() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if (emp.email.toLowerCase().includes(searchInput) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput)) { 
+      if (emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) { 
         return emp
       };
     }

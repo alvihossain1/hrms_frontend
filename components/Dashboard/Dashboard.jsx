@@ -240,10 +240,10 @@ export default function Dashboard({ children }) {
                                         <FontAwesomeIcon icon={faPlus} />
                                         <p>Assign Task</p>
                                     </Link>
-                                    <Link href="/dashboard/viewAssignedTask"
+                                    <Link href="/dashboard/manageAssignedTasks"
                                         className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
                                         <FontAwesomeIcon icon={faFile} />
-                                        <p>View Assiged Tasks</p>
+                                        <p>Manage Assiged Tasks</p>
                                     </Link>
                                 </div>
                             </li>
