@@ -35,8 +35,9 @@ export default function AddAttendance() {
     const t1 = parseFloat(clockInTime.replace(":", "."));
     const hoursWorked = (t2 - t1).toFixed(2);
 
-    if (!clockInTime || !clockOutTime) {
+    if (!clockInTime || !clockOutTime || !date) {
       toast.info("Fill all the fields");
+      return;
     }
     else if (hoursWorked < 0) {
       toast.info("Please check the Clock in and Clock Out times");

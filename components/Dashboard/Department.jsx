@@ -27,7 +27,7 @@ export default function Department() {
   async function handleAddDepartment(e) {
     e.preventDefault()
     if (!deptNameInput) {
-      toast.warning("Input is empty");
+      toast.info("Input is empty");
       return;
     }
     let data = { departmentName: deptNameInput, name: session?.user?.name }

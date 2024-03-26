@@ -93,8 +93,7 @@ export default function AssignTask() {
         <div className='col-span-12'>
           <div className='flex flex-col gap-2'>
             <p className='text-sm font-bold my-auto'>Task Details:</p>
-            {/* <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setTaskDetails(e.target.value)} value={taskDetails}/> */}
-            <textarea type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500'  onChange={(e) => setTaskDetails(e.target.value)} value={taskDetails}></textarea>
+            <textarea type='text' className='min-h-[20vh] md:min-h-[12vh] w-full md:w-7/12 py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500'  onChange={(e) => setTaskDetails(e.target.value)} value={taskDetails}></textarea>
           </div>
         </div>
         <div className='col-span-12'>

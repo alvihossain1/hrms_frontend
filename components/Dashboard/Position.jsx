@@ -27,7 +27,7 @@ export default function Position() {
   async function handleAddPosition(e) {
     e.preventDefault()
     if (!posNameInput) {
-      toast.warning("Input is empty");
+      toast.info("Input is empty");
       return;
     }
     let data = { positionName: posNameInput, name: session?.user?.name }
