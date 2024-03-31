@@ -1,5 +1,6 @@
 "use client"
-import { deleteAssignedTasksAPI, getAssignedTasksAPI } from '@/lib/api';
+import Modal from '@/components/Modal';
+import { changeTaskStatusAPI, deleteAssignedTasksAPI, getAssignedTasksAPI } from '@/lib/api';
 import { dateFormat } from '@/lib/dateFormat';
 import { faFile, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,7 +27,7 @@ export default function ManageAssignedTask() {
   }
 
   async function deleteTask(e, taskId, employeeId) {
-    e.preventDefault();
+    e.preventDefault();    
     const data = { taskId, employeeId }
     const response = await deleteAssignedTasksAPI(data);
     if (response.status === 200) {
@@ -35,7 +36,22 @@ export default function ManageAssignedTask() {
     }
     else {
       toast.error(response.data);
+    }       
+
+  }
+
+  async function changeTaskStatus(e, task) {
+    e.preventDefault();    
+    let status;
+    const data = { taskId: task.taskId, status: !task.taskCompleted}
+    const response = await changeTaskStatusAPI(data);
+    if (response.status === 200) {
+      toast.success(response.data);
+      fetchEmployees();
     }
+    else {
+      toast.error(response.data);
+    }       
 
   }
 
@@ -88,8 +104,10 @@ export default function ManageAssignedTask() {
                 <p className='text-sm'><span className='font-bold'>Task Name:</span> {task.taskName}</p>
                 <p className='text-sm'><span className='font-bold'>Task Details:</span> {task.taskDetails}</p>
                 <p className='text-sm'><span className='font-bold'>Due Date:</span> {dateFormat(task.dueDate)}</p>
-                <div onClick={(e) => deleteTask(e, task.taskId, emp.employeeId)} className='mt-2'>
-                  <button className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Delete</button>
+                <p className='text-sm'><span className='font-bold'>Task Completed:</span> {task.taskCompleted ? "Yes" : "No"}</p>
+                <div className='flex gap-2 mt-2'>
+                  <button onClick={(e) => deleteTask(e, task.taskId, emp.employeeId)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Delete</button>
+                  <button onClick={(e) => changeTaskStatus(e, task)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>{task.taskCompleted ? "Set Undone" : "Set Done"}</button>
                 </div>
               </div>
             </div>
