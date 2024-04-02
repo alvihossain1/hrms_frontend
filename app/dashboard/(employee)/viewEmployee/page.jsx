@@ -4,7 +4,8 @@ import { dateFormat } from '@/lib/dateFormat';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
-import generatePDF from 'react-to-pdf';
+import ReactPDF, { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import { EmployeePDF } from '@/lib/pdf';
 
 export default function ViewEmployee() {
 
@@ -23,11 +24,6 @@ export default function ViewEmployee() {
     const response = await getEmployeeAPI();
     console.log("RES EMPLOYEE:: ", response);
     setEmployeeData(response);
-  }
-
-  function pdfDownload(emp) {
-    let name = emp.email.split("@")[0];
-    generatePDF(targetRef, { filename: `employee_${name}.pdf` });
   }
 
   let emp_list;
@@ -57,7 +53,7 @@ export default function ViewEmployee() {
   function cardComponent(emp) {
     return (
       <div ref={targetRef} className='grid grid-cols-12 mx-0 my-3 md:mx-2 p-2 md:p-4 border-2 border-slate-200 text-slate-700'>
-        <div className='flex flex-col gap-2.5 col-span-12 md:col-span-6'>
+        <div className='col-span-12 md:col-span-6 flex flex-col gap-2.5 '>
           <h3 className='my-1'>Employee Record</h3>
           <p className='text-sm'><span className='font-bold'>Name:</span> {emp.fname} {emp.lname}</p>
           <p className='text-sm'><span className='font-bold'>Email:</span> {emp.email}</p>
@@ -83,9 +79,10 @@ export default function ViewEmployee() {
             <p className='text-sm'><span className='font-bold'>Total Salary:</span> {emp.salary_tbl.total}</p>
           </div> : <div className='p-2 flex flex-col gap-1 border-2 border-slate-200'><p className='text-sm font-bold text-red-600'>No salary Info</p></div>}
 
-          <div className='mt-2'>
-            <button onClick={() => pdfDownload(emp)}
-              className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Download Data</button>
+          <div className='mt-2 flex gap-2'>
+            <PDFDownloadLink document={<EmployeePDF emp={emp}/>} fileName={`employee_${emp.fname}_${emp.lname}`}>
+              <button className='px-5 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 transition-all duration-300 ease rounded-sm shadow-sm shadow-slate-500'>Download Data</button>
+            </PDFDownloadLink>
           </div>
         </div>
         <div className='col-span-12 md:col-span-6 flex justify-start md:justify-end'>
@@ -93,6 +90,11 @@ export default function ViewEmployee() {
             <img className='h-full w-full object-cover object-center' src={emp.image_url} />
           </div>
         </div>
+        {/* <div className='col-span-12'>
+          <PDFViewer>
+            <EmployeePDF emp={emp} />
+          </PDFViewer>
+        </div> */}
       </div>
     )
   }

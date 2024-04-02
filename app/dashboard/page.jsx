@@ -57,28 +57,28 @@ export default function Page() {
           <p className='text-center'>There has been a problem, clould not connect to the server, error status: {employeeData.status} </p>
           <p className='text-sm'>{employeeData?.error?.message}, {employeeData?.error?.name}</p>
         </div>
-        <div className='col-span-12 md:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
+        <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
           <h2 className='my-3'>Registered Employees</h2>
           <h3 className='my-3'>{employeeData.status === 200 ? employeeData.data.length : '...'}</h3>
           <p className='my-3'>Total number of Employees in the system registered.</p>
         </div>
-        <div className='col-span-12 md:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
+        <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
           <h2 className='my-3'>Active Employees</h2>
           <h3 className='my-3'>{employeeData.status === 200 ? employeeActiveCount() : '...'}</h3>
           <p className='my-3'>Total number of Employees Active at the moment.</p>
         </div>
-        <div className='col-span-12 md:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
+        <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
           <h2 className='my-3'>Leave Employees</h2>
           <h3 className='my-3'>{employeeData.status === 200 ? employeeLeaveCount() : '...'}</h3>
           <p className='my-3'>Total number of Employees at Leave at the moment.</p>
         </div>
-        <div className='col-span-12 md:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
+        <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg'>
           <h2 className='my-3'>Today's Attendance</h2>
           <h3 className='my-3'>{attendanceData.status === 200 || attendanceData.status === 0 ? attendanceData.data.length : '..'} / {employeeData.status === 200 ? employeeData.data.length : '..'}</h3>
           <p className='my-3'>Total number of Employees who attended today on {dateFormat(Date.now())}</p>
         </div>
         {/* VIEW EMPLOYEE RECORDS */}
-        <div className='col-span-12 lg:col-span-12 rounded-lg bg-slate-50 box-shadow-1 text-slate-800 overflow-hidden'>
+        <div className='col-span-12 rounded-lg bg-slate-50 box-shadow-1 text-slate-800 overflow-hidden'>
           <div className='p-2.5 md:p-5 max-h-[55vh] overflow-auto scrollbar scrollbar-sm'>
             <div className='flex flex-col'>
               <Employee employeeData={employeeData} />

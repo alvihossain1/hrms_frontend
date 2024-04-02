@@ -1,6 +1,6 @@
 "use client"
 import Modal from '@/components/Modal';
-import { changeTaskStatusAPI, deleteAssignedTasksAPI, getAssignedTasksAPI } from '@/lib/api';
+import { changeTaskStatusAPI, deleteAssignedTasksAPI, getAssignedTasksAPI, updateTaskAPI } from '@/lib/api';
 import { dateFormat } from '@/lib/dateFormat';
 import { faFile, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,8 +13,12 @@ export default function ManageAssignedTask() {
 
   const [searchInput, setSearchInput] = useState("");
   const [selectedId, setSelectedId] = useState(-1);
+  const [updateId, setUpdateId] = useState(-1);
 
   // INPUT
+  const [taskName, setTaskName] = useState("");
+  const [taskDetails, setTaskDetails] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   useEffect(() => {
     fetchEmployees();
@@ -26,9 +30,9 @@ export default function ManageAssignedTask() {
     setEmployeeData(response);
   }
 
-  async function deleteTask(e, taskId, employeeId) {
-    e.preventDefault();    
-    const data = { taskId, employeeId }
+  async function deleteTask(e, taskId) {
+    e.preventDefault();
+    const data = { taskId }
     const response = await deleteAssignedTasksAPI(data);
     if (response.status === 200) {
       toast.success(response.data);
@@ -36,14 +40,13 @@ export default function ManageAssignedTask() {
     }
     else {
       toast.error(response.data);
-    }       
+    }
 
   }
 
   async function changeTaskStatus(e, task) {
-    e.preventDefault();    
-    let status;
-    const data = { taskId: task.taskId, status: !task.taskCompleted}
+    e.preventDefault();
+    const data = { taskId: task.taskId, status: !task.taskCompleted }
     const response = await changeTaskStatusAPI(data);
     if (response.status === 200) {
       toast.success(response.data);
@@ -51,7 +54,22 @@ export default function ManageAssignedTask() {
     }
     else {
       toast.error(response.data);
-    }       
+    }
+
+  }
+
+  async function updateBtnOnClick(e, taskId) {
+    e.preventDefault();
+    const data = { taskId, taskName, taskDetails, dueDate }
+    const response = await updateTaskAPI(data);
+    if (response.status === 200) {
+      toast.success(response.data);
+      setUpdateId(-1);
+      fetchEmployees();
+    }
+    else {
+      toast.error(response.data);
+    }
 
   }
 
@@ -76,7 +94,7 @@ export default function ManageAssignedTask() {
             {emp?.task_tbls?.length !== 0 ?
               <div className='flex p-2 border-2 border-slate-300 text-slate-500'>
                 <p className='text-xs font-bold'>Task: {emp.task_tbls.length}</p>
-              </div> : "" }
+              </div> : ""}
             <div className=''>
               <button onClick={() => setSelectedId(selectedId === -1 ? emp.employeeId : selectedId !== emp.employeeId ? emp.employeeId : -1)} className='px-4 py-2 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>View <FontAwesomeIcon icon={faFile}></FontAwesomeIcon></button>
             </div>
@@ -100,16 +118,17 @@ export default function ManageAssignedTask() {
           :
           emp.task_tbls.map(task => (((
             <div key={task.taskId} className='col-span-12'>
-              <div className='border-2 border-slate-200 my-0.5 p-2'>
+              {task.taskId !== updateId ? <div className='border-2 border-slate-200 my-0.5 p-2'>
                 <p className='text-sm'><span className='font-bold'>Task Name:</span> {task.taskName}</p>
                 <p className='text-sm'><span className='font-bold'>Task Details:</span> {task.taskDetails}</p>
                 <p className='text-sm'><span className='font-bold'>Due Date:</span> {dateFormat(task.dueDate)}</p>
                 <p className='text-sm'><span className='font-bold'>Task Completed:</span> {task.taskCompleted ? "Yes" : "No"}</p>
                 <div className='flex gap-2 mt-2'>
-                  <button onClick={(e) => deleteTask(e, task.taskId, emp.employeeId)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Delete</button>
+                  <button onClick={(e) => deleteTask(e, task.taskId)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Delete</button>
+                  <button onClick={(e) => setUpdate(task)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Update</button>
                   <button onClick={(e) => changeTaskStatus(e, task)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>{task.taskCompleted ? "Set Undone" : "Set Done"}</button>
                 </div>
-              </div>
+              </div> : updateCard(task)}
             </div>
           ))))
         }
@@ -117,6 +136,35 @@ export default function ManageAssignedTask() {
     )
   }
 
+  function setUpdate(task) {
+    setUpdateId(task.taskId);
+    setTaskName(task.taskName);
+    setTaskDetails(task.taskDetails);
+    setDueDate(task.dueDate);
+  }
+
+  function updateCard(task) {
+    return (
+      <div className='border-2 flex flex-col gap-2 border-slate-200 my-0.5 p-2'>
+        <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Task Name:</p>
+          <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setTaskName(e.target.value)} value={taskName} defaultValue={task.taskName} />
+        </div>
+        <div className='flex flex-col gap-1'>
+          <p className='text-sm font-bold my-auto'>Task Details:</p>
+          <textarea type='text' className='min-h-[20vh] md:min-h-[12vh] w-full md:w-7/12 py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setTaskDetails(e.target.value)} value={taskDetails}></textarea>
+        </div>
+        <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Due Date:</p>
+          <input type='date' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setDueDate(e.target.value)} value={dueDate} />
+        </div>
+        <div className='flex gap-2 mt-2'>
+          <button onClick={(e) => updateBtnOnClick(e, task.taskId)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Update</button>
+          <button onClick={(e) => setUpdateId(-1)} className='px-3 py-1 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Cancel</button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col gap-x-1.5 gap-y-5 md:gap-x-4 md:gap-y-10 text-slate-800 md:py-12 md:px-12 w-full md:w-10/12 mx-auto'>

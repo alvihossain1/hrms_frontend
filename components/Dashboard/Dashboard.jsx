@@ -11,7 +11,7 @@ import {
     faCaretUp,
     faClipboardUser,
     faFile,
-    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck, faEraser,
+    faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck, faEraser, faPersonRunning,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from '@/components/Footer';
 import { signOut } from 'next-auth/react';
@@ -24,11 +24,12 @@ export default function Dashboard({ children }) {
     const breakdown = 1000;
     const [screenWidth, setScreenWidth] = useState(0);
     const [sidebar, setSidebar] = useState(true);
-    const [screenMargin, setScreenMargin] = useState(true)
+    const [screenLeftMargin, setScreenLeftMargin] = useState(true)
     const [employee, setEmployee] = useState(true);
     const [attendance, setAttendance] = useState(false);
     const [salary, setSalary] = useState(false);
     const [tasks, setTasks] = useState(false);
+    const [leave, setLeave] = useState(false);
 
     const [dropdownNav, setDropdownNav] = useState(false);
 
@@ -39,11 +40,11 @@ export default function Dashboard({ children }) {
         if (window.innerWidth > breakdown) {
             if (sidebar) {
                 setSidebar(false);
-                setScreenMargin(false);
+                setScreenLeftMargin(false);
             }
             else {
                 setSidebar(true);
-                setScreenMargin(true)
+                setScreenLeftMargin(true)
             }
         }
         else {
@@ -52,32 +53,15 @@ export default function Dashboard({ children }) {
         }
     }
 
-    function employeeBar() {
-        if (employee) { setEmployee(false) }
-        else { setEmployee(true) }
-    }
-    function salaryBar() {
-        if (salary) { setSalary(false) }
-        else { setSalary(true) }
-    }
-    function attendanceBar() {
-        if (attendance) { setAttendance(false) }
-        else { setAttendance(true) }
-    }
-    function tasksBar() {
-        if (tasks) { setTasks(false) }
-        else { setTasks(true) }
-    }
-
     function sidebarWidthControl() {
         setScreenWidth(window.innerWidth);
         if (window.innerWidth > 950) {
             setSidebar(true)
-            setScreenMargin(true)
+            setScreenLeftMargin(true)
         }
         else {
             setSidebar(false)
-            setScreenMargin(false)
+            setScreenLeftMargin(false)
         }
     }
 
@@ -155,7 +139,7 @@ export default function Dashboard({ children }) {
                             </li>
                             {/* Employee Bar */}
                             <li className="px-3 py-1">
-                                <div onClick={() => employeeBar()}
+                                <div onClick={() => setEmployee(!employee)}
                                     className="flex items-center gap-2 p-3 w-full rounded-lg bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faUserGroup} />
                                     <p>Employee</p>
@@ -181,7 +165,7 @@ export default function Dashboard({ children }) {
                             </li>
                             {/* Salary Bar */}
                             <li className="px-3 py-1">
-                                <div onClick={() => salaryBar()}
+                                <div onClick={() => setSalary(!salary)}
                                     className="flex items-center gap-2 p-3 w-full rounded-lg bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faHandHoldingDollar} />
                                     <p>Salary</p>
@@ -202,7 +186,7 @@ export default function Dashboard({ children }) {
                             </li>
                             {/* Attendance Bar */}
                             <li className="px-3 py-1">
-                                <div onClick={() => attendanceBar()}
+                                <div onClick={() => setAttendance(!attendance)}
                                     className="flex items-center gap-2 p-3 w-full rounded-lg bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faClipboardUser} />
                                     <p>Attendance</p>
@@ -228,7 +212,7 @@ export default function Dashboard({ children }) {
                             </li>
                             {/* Tasks Bar */}
                             <li className="px-3 py-1">
-                                <div onClick={() => tasksBar()}
+                                <div onClick={() => setTasks(!tasks)}
                                     className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
                                     <FontAwesomeIcon icon={faListCheck} />
                                     <p>Tasks</p>
@@ -247,6 +231,27 @@ export default function Dashboard({ children }) {
                                     </Link>
                                 </div>
                             </li>
+                            {/* Leave Bar */}
+                            <li className="px-3 py-1">
+                                <div onClick={() => setLeave(!leave)}
+                                    className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
+                                    <FontAwesomeIcon icon={faPersonRunning} />
+                                    <p>Leave</p>
+                                    <FontAwesomeIcon className="ml-auto" icon={leave ? faCaretUp : faCaretDown} />
+                                </div>
+                                <div className={`rounded-lg overflow-hidden my-1 ${leave ? "" : "hidden"}`}>
+                                    <Link href="/dashboard/assignLeave"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                        <p>Assign Employee Leave</p>
+                                    </Link>
+                                    <Link href="/dashboard/manageLeave"
+                                        className="flex items-center gap-2 p-3 bg-slate-200 hover:bg-purple-500 hover:text-slate-200 transition-all duration-300 text-slate-800 cursor-pointer">
+                                        <FontAwesomeIcon icon={faFile} />
+                                        <p>Manage Employee Leave</p>
+                                    </Link>
+                                </div>
+                            </li>
                             <li className="px-3 py-1 w-100">
                                 <div onClick={() => logOutOnClick()}
                                     className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
@@ -258,7 +263,7 @@ export default function Dashboard({ children }) {
                     </div>
                 </div>
 
-                <div id="navbar" className="navbar min-h-[11vh] md:min-h-[9vh] fixed top-0 right-0 left-0 flex p-2 bg-slate-800" style={{ marginLeft: screenMargin ? sidebarWidth : "0px" }}>
+                <div id="navbar" className="navbar min-h-[11vh] md:min-h-[9vh] fixed top-0 right-0 left-0 flex p-2 bg-slate-800" style={{ marginLeft: screenLeftMargin ? sidebarWidth : "0px" }}>
                     <div className="w-full flex">
                         <div className="profile-content px-0.5 md:px-2 flex items-center gap-1.5 md:gap-2">
                             {profile}
@@ -271,7 +276,7 @@ export default function Dashboard({ children }) {
                 </div>
 
                 {/* <!-- ACTUAL CONTENT INSIDE HERE --> */}
-                <div id="data-content" className="data-content mt-[11vh] md:mt-[9vh] side-section w-full text-slate-800 p-2.5" style={{ marginLeft: screenMargin ? sidebarWidth : "0px" }}>
+                <div id="data-content" className="data-content mt-[11vh] md:mt-[9vh] side-section w-full text-slate-800 p-2.5" style={{ marginLeft: screenLeftMargin ? sidebarWidth : "0px" }}>
                     {children}
                 </div>
                 {/* <!-- ACTUAL CONTENT INSIDE HERE END --> */}
