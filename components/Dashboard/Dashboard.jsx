@@ -12,6 +12,7 @@ import {
     faClipboardUser,
     faFile,
     faHouse, faListCheck, faPlus, faPowerOff, faXmark, faUserGroup, faUserPlus, faUserPen, faHandHoldingDollar, faSackDollar, faMoneyCheckDollar, faUserCheck, faEraser, faPersonRunning,
+    faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from '@/components/Footer';
 import { signOut } from 'next-auth/react';
@@ -21,7 +22,7 @@ import { useSession } from 'next-auth/react';
 export default function Dashboard({ children }) {
 
     const sidebarWidth = "300px"
-    const breakdown = 1000;
+    const breakdown = 1100;
     const [screenWidth, setScreenWidth] = useState(0);
     const [sidebar, setSidebar] = useState(true);
     const [screenLeftMargin, setScreenLeftMargin] = useState(true)
@@ -34,7 +35,6 @@ export default function Dashboard({ children }) {
     const [dropdownNav, setDropdownNav] = useState(false);
 
     const { data: session } = useSession();
-    const router = useRouter();
 
     function sideBarSwitch() {
         if (window.innerWidth > breakdown) {
@@ -55,7 +55,7 @@ export default function Dashboard({ children }) {
 
     function sidebarWidthControl() {
         setScreenWidth(window.innerWidth);
-        if (window.innerWidth > 950) {
+        if (window.innerWidth > breakdown) {
             setSidebar(true)
             setScreenLeftMargin(true)
         }
@@ -108,7 +108,7 @@ export default function Dashboard({ children }) {
         <main className="main">
             <div className="relative min-h-screen flex bg-slate-200">
                 <CustomToast />
-                <div id="sidebar" className="sidebar h-screen fixed top-0 left-0 right-0 bottom-0 bg-slate-800 text-slate-200" style={{ width: sidebar ? sidebarWidth : "0px" }}>
+                <div id="sidebar" className="sidebar h-screen fixed top-0 left-0 right-0 bottom-0 bg-slate-800 text-slate-200 scrollbar scrollbar-sm" style={{ width: sidebar ? sidebarWidth : "0px" }}>
                     <div className="flex flex-col overflow-hidden">
                         <div className="min-h-[11vh] md:min-h-[9vh] flex justify-center items-center">
                             <Link href="/dashboard">
@@ -251,6 +251,14 @@ export default function Dashboard({ children }) {
                                         <p>Manage Employee Leave</p>
                                     </Link>
                                 </div>
+                            </li>
+                            {/* Graphs */}
+                            <li className="px-3 py-1 w-100">
+                                <Link href="/dashboard/statistics"
+                                    className="flex items-center gap-2 p-3 rounded-lg p-3 bg-slate-800 hover:bg-purple-500 transition-all duration-300 text-slate-200 cursor-pointer">
+                                    <FontAwesomeIcon icon={faChartLine} />
+                                    <p>Statistics</p>
+                                </Link>
                             </li>
                             <li className="px-3 py-1 w-100">
                                 <div onClick={() => logOutOnClick()}

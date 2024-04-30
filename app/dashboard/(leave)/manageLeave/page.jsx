@@ -107,8 +107,8 @@ export default function ManageLeave() {
           emp.leave_tbls.map(leave => (((
             <div key={leave.leaveId} className='col-span-12'>
               {leave.leaveId !== updateId ? <div className='border-2 border-slate-200 my-0.5 p-2'>
-                <p className='text-sm'><span className='font-bold'>leave Name:</span> {leave.leaveType}</p>
-                <p className='text-sm'><span className='font-bold'>leave Details:</span> {leave.leaveReason}</p>
+                <p className='text-sm'><span className='font-bold'>Leave Type:</span> {leave.leaveType}</p>
+                <p className='text-sm'><span className='font-bold'>Leave Reason:</span> {leave.leaveReason}</p>
                 <p className='text-sm'><span className='font-bold'>Start Date:</span> {dateFormat(leave.startDate)}</p>
                 <p className='text-sm'><span className='font-bold'>End Date:</span> {dateFormat(leave.endDate)}</p>
                 <div className='flex gap-2 mt-2'>

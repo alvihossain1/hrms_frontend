@@ -19,14 +19,14 @@ export default function AddSalary() {
   const [allowance, setAllowance] = useState(0);
   const [benefits, setBenefits] = useState(0);
   const [total, setTotal] = useState(0);
-  
+
 
   useEffect(() => {
     fetchEmployees();
   }, [])
 
   useEffect(() => {
-    let sum = parseFloat(baseSalary)+parseFloat(bonus)+parseFloat(allowance)+parseFloat(benefits);
+    let sum = parseFloat(baseSalary || 0) + parseFloat(bonus || 0) + parseFloat(allowance || 0) + parseFloat(benefits || 0);
     setTotal(sum);
   }, [baseSalary, bonus, allowance, benefits])
 
@@ -38,23 +38,23 @@ export default function AddSalary() {
 
   async function handleSubmit(e, employeeId) {
     e.preventDefault();
-    if(baseSalary === 0){
+    if (!baseSalary) {
       toast.info("Enter Base Salary")
       return;
     }
-    else if(!bonus || !allowance || !benefits){
+    else if (!bonus || !allowance || !benefits) {
       setBonus(0); setAllowance(0); setBenefits(0);
     }
     const data = { employeeId, baseSalary, bonus, allowance, benefits, total };
     const response = await addSalaryAPI(data);
     console.log(response);
-    if(response.status === 200){
+    if (response.status === 200) {
       toast.success("Salary Added");
       setBaseSalary(0); setBonus(0); setAllowance(0); setBenefits(0), setTotal(0);
       setSelectedId(-1);
       fetchEmployees();
     }
-    else{
+    else {
       toast.error(response.data);
     }
   }
@@ -62,7 +62,7 @@ export default function AddSalary() {
   let emp_list;
   if (employeeData.status === 200) {
     emp_list = employeeData.data.filter(emp => {
-      if ((emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) && emp?.salary_tbl === null) { 
+      if ((emp.email.toLowerCase().includes(searchInput.toLowerCase()) || (emp.fname + " " + emp.lname).toLowerCase().includes(searchInput.toLowerCase())) && emp?.salary_tbl === null) {
         return emp
       };
     }
@@ -94,31 +94,32 @@ export default function AddSalary() {
         <div className='col-span-12 md:col-span-6'>
           <div className='flex gap-2'>
             <p className='text-sm font-bold my-auto'>Base Salary:</p>
-            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setBaseSalary(e.target.value)} />
+            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onBlur={(e) => setBaseSalary(e.target.value)} />
           </div>
         </div>
         <div className='col-span-12 md:col-span-6'>
           <div className='flex gap-2'>
             <p className='text-sm font-bold my-auto'>Bonus:</p>
-            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setBonus(e.target.value)} />
+            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onBlur={(e) => setBonus(e.target.value)} />
           </div>
         </div>
         <div className='col-span-12 md:col-span-6'>
           <div className='flex gap-2'>
             <p className='text-sm font-bold my-auto'>Allowance:</p>
-            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setAllowance(e.target.value)} />
+            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onBlur={(e) => setAllowance(e.target.value)} />
           </div>
         </div>
         <div className='col-span-12 md:col-span-6'>
           <div className='flex gap-2'>
             <p className='text-sm font-bold my-auto'>Benefits:</p>
-            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onChange={(e) => setBenefits(e.target.value)} />
+            <input type='number' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' onBlur={(e) => setBenefits(e.target.value)} />
           </div>
         </div>
         <div className='col-span-12'>
-        <div className='mt-2 flex flex-wrap gap-2'>
-          <p className='text-sm my-auto'><span className='font-bold'>Total Salary:</span> {total}</p>
-        </div>
+          <div className='mt-2 flex flex-col flex-wrap gap-1'>
+            <p className='text-sm my-auto'>Please check in the total salary below to update.</p>
+            <p className='text-sm my-auto'><span className='font-bold'>* Total Salary:</span> {total}</p>
+          </div>
         </div>
         <div className='col-span-12'>
           <div className='mt-2 flex flex-wrap gap-2'>

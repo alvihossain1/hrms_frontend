@@ -24,7 +24,7 @@ export default function Page() {
     setEmployeeData(response);
   }
 
-  async function fetchAttendanceToday(){
+  async function fetchAttendanceToday() {
     const response = await getEmployeeByDateAttendedAPI(defaultDateNow());
     console.log('RES EMP Attendance::', response);
     setAttendanceData(response);
