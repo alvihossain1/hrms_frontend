@@ -1,12 +1,12 @@
 "use client"
-import { getAttendanceChartData, getEmployeeMinFieldsAPI } from '@/lib/api';
+import { getAllTasksStatus, getAttendanceChartData, getEmployeeMinFieldsAPI } from '@/lib/api';
 import { dateFormat } from '@/lib/dateFormat';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Chart from 'chart.js/auto';
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 
 export default function Charts() {
 
@@ -14,10 +14,12 @@ export default function Charts() {
     const [month, setMonth] = useState(process());
     const [employeeData, setEmployeeData] = useState({})
     const [attendanceChartData, setAttendanceChartData] = useState({});
+    const [tasksChartData, setTasksChartData] = useState({});
 
     useEffect(() => {
         fetchAttendanceChart(month);
         fetchEmployees();
+        fetchTaskChart();
     }, [])
 
     function process() {
@@ -26,11 +28,8 @@ export default function Charts() {
         month = parseInt(month) + 1
         if (month < 10) {
             month = "0" + month;
-            console.log("Month::  ", month);
         }
-
         return d.getFullYear() + "-" + month;
-
     }
 
     async function fetchEmployees() {
@@ -45,6 +44,13 @@ export default function Charts() {
         setAttendanceChartData(response);
     }
 
+    async function fetchTaskChart() {
+        const response = await getAllTasksStatus();
+        console.log("RES Chart:: ", response);
+        setTasksChartData(response);
+        // console.log("SPECIAL", response.data.filter((data) => { if(data.taskCompleted) return data }).length)
+    }
+
     async function submitMonth(e) {
         e.preventDefault();
         setMonth(e.target.value);
@@ -55,6 +61,7 @@ export default function Charts() {
 
     return (
         <div className='grid grid-cols-12 gap-4 md:p-2'>
+
             <div className='col-span-12 rounded-lg bg-slate-50 box-shadow-1 text-slate-800 overflow-hidden p-3'>
                 <div className='flex items-center justify-between py-2'>
                     <h5 className='text-slate-800'>Employee Monthly Attendance</h5>
@@ -87,6 +94,32 @@ export default function Charts() {
                     </div>
                 }
             </div>
+
+            <div className='col-span-12 md:col-span-6 lg:col-span-4 rounded-lg flex flex-col items-center bg-slate-50 box-shadow-1 text-slate-800 overflow-hidden p-3'>
+                <div className='py-2'>
+                    <h5 className='text-slate-800'>Task Completion</h5>
+                </div>
+                {tasksChartData.status === 200 ?
+                    <div className='w-full h-[40vh] flex justify-center p-2'>
+                        <Pie
+                            data={{
+                                labels: ["Done", "Not Done"],
+                                datasets: [
+                                    {
+                                        label: "Tasks",
+                                        data: [tasksChartData.data.filter((data) => { if (data.taskCompleted) return data }).length, tasksChartData.data.filter((data) => { if (!data.taskCompleted) return data }).length],
+                                        backgroundColor: ["#14b8a6", "#ec4899"]
+                                    }
+                                ]
+                            }}
+                        />
+                    </div> :
+                    <div className='w-full h-[40vh] flex items-center justify-center p-2'>
+                        <div className='text-slate-800'>{tasksChartData.status === 0 ? <h6>No recorded tasks</h6> : <div className="loader"></div>}</div>
+                    </div>
+                }
+            </div>
+
         </div>
     )
 }
