@@ -58,9 +58,9 @@ export default function Page() {
           <p className='text-sm'>{employeeData?.error?.message}, {employeeData?.error?.name}</p>
         </div>
         <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg flex flex-col justify-between'>
-          <h2 className='my-1'>Registered Employees</h2>
-          <h3 className='my-1'>{employeeData.status === 200 ? employeeData.data.length : '...'}</h3>
-          <p className='my-1'>Total number of Employees in the system registered.</p>
+          <h2 className='my-2'>Registered Employees</h2>
+          <h3 className='my-2'>{employeeData.status === 200 ? employeeData.data.length : '...'}</h3>
+          <p className='my-2'>Total number of Employees in the system registered.</p>
         </div>
         <div className='col-span-12 md:col-span-6 lg:col-span-3 bg-slate-700 text-slate-200 p-5 rounded-lg flex flex-col justify-between'>
           <h2 className='my-2'>Active Employees</h2>
