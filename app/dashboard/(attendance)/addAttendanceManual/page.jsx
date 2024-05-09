@@ -37,6 +37,7 @@ export default function AddAttendanceManual() {
 
     if (!clockInTime || !clockOutTime) {
       toast.info("Fill all the fields");
+      return;
     }
     else if (hoursWorked < 0) {
       toast.info("Please check the Clock in and Clock Out times");

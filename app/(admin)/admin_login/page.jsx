@@ -1,16 +1,15 @@
 "use client"
-import Link from 'next/link';
 import React, { useState } from 'react'
 import { signIn } from 'next-auth/react';
 import { toast } from 'react-toastify';
 import CustomToast from '@/components/CustomToast';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faGears } from '@fortawesome/free-solid-svg-icons';
 
 
 
-export default function Login() {
+export default function AdminLogin() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -29,14 +28,14 @@ export default function Login() {
             const res = await signIn("credentials", {
                 email: email,
                 password: password,
-                userType: "hr",
+                userType: "admin",
                 redirect: false,
             });
             if (res.error) {
                 toast.error("Email or Password is incorrect");
             }
             else {
-                router.replace("/dashboard");
+                router.replace("/admin_dashboard");
             }
         }
         catch (error) {
@@ -47,14 +46,14 @@ export default function Login() {
 
 
     return (
-        <div className="min-h-screen flex justify-center items-center background-theme-login">
+        <div className="min-h-screen flex justify-center items-center background-theme-adminLogin">
             <CustomToast />
             <div className="w-full mx-2 md:w-10/12 lg:w-8/12 xl:w-3/12 p-2 md:p-0 bg-slate-800 rounded-xl overflow-hidden">
                 <form onSubmit={(e) => handleSubmit(e)} className="grid grid-cols-12 p-2 md:p-5">
                     <div className="col-span-12">
                         <div className="mt-3 mb-5 flex flex-col gap-2">
                             <h2 className="text-center text-slate-200"><span className="text-purple-500">HRM</span> System</h2>
-                            <h3 className="text-center text-slate-200"><span className='text-teal-500'>HR</span> Login</h3>
+                            <h3 className="text-center text-slate-200"><span className='text-yellow-500'>Admin</span> Panel</h3>
                         </div>
                     </div>
                     <div className="col-span-12">
@@ -74,9 +73,9 @@ export default function Login() {
                         </div>
                     </div>
                     <div className="col-span-12">
-                        <div className="flex text-teal-500 gap-1.5 my-4">
-                            <FontAwesomeIcon icon={faUserTie}></FontAwesomeIcon>                            
-                            <p className="text-sm font-bold">HR Employee login panel</p>
+                        <div className="flex text-yellow-500 gap-1.5 my-4">
+                            <FontAwesomeIcon icon={faGears}></FontAwesomeIcon>                            
+                            <p className="text-sm font-bold">Admin login panel</p>
                         </div>
                     </div>
                     <div className="col-span-12">

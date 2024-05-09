@@ -18,8 +18,11 @@ export default function UpdateEmployee() {
   const bd_states = ["Dhaka", "Barishal", "Chattogram", "Khulna", "Rajshahi", "Rangpur", "Mymensingh", "Sylhet"];
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [dob, setDob] = useState("");
+  const [email, setEmail] = useState("");
   const [contactNo, setContactNo] = useState("");
   const [address, setAddress] = useState("");
+  const [hiringDate, setHiringDate] = useState("");
   const [terminationDate, setTerminationDate] = useState("");
   const [profileImage, setProfileImage] = useState("");
   // Selects
@@ -57,18 +60,19 @@ export default function UpdateEmployee() {
   async function updateButtonOnClick(e, emp){
     e.preventDefault();
     setUpdate(true);
-    setFname(emp.fname); setLname(emp.lname);
+    setFname(emp.fname); setLname(emp.lname); setEmail(emp.email)
     setAddress(emp.address); setContactNo(emp.contactNo);
     setEmployeeStatus(emp.employeeStatus);
     setDepartmentName(emp.departmentName); setPositionName(emp.positionName);
-    setTerminationDate(emp.terminationDate);
+    setHiringDate(emp.hiringDate); setTerminationDate(emp.terminationDate);
+    setDob(emp.dob)
 
   }
 
   async function confirmUpdateBtnOnClick(e, emp){
     e.preventDefault()
     const employeeId = emp.employeeId;
-    const user = { employeeId, fname, lname, contactNo, address, stateName, employeeStatus, departmentName, positionName, terminationDate };
+    const user = { employeeId, fname, lname, email, dob, contactNo, address, stateName, employeeStatus, departmentName, positionName, hiringDate, terminationDate };
     console.log(user);
     const response = await updateEmployeeAPI(user);
     if(response.status === 200){
@@ -98,8 +102,8 @@ export default function UpdateEmployee() {
   }
 
   function clearAllFields(){
-    setFname(""); setLname(""); setContactNo(""); setAddress(""); setTerminationDate(""); 
-    setProfileImage(""); setDepartmentName(""); setPositionName(""); setStateName("Dhaka");
+    setFname(""); setLname(""); setEmail(""); setDob(""); setContactNo(""); setAddress(""); setHiringDate("");
+    setTerminationDate(""); setProfileImage(""); setDepartmentName(""); setPositionName(""); setStateName("Dhaka");
     setEmployeeStatus("Active");
 }
 
@@ -194,8 +198,20 @@ export default function UpdateEmployee() {
           <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={lname} onChange={(e) => setLname(e.target.value)} />
         </div>
         <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Email:</p>
+          <input type='email' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Date of Birth:</p>
+          <input type='date' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={dob} onChange={(e) => setDob(e.target.value)} />
+        </div>
+        <div className='flex gap-2'>
           <p className='text-sm font-bold my-auto'>Change Address:</p>
           <input type='text' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+        <div className='flex gap-2'>
+          <p className='text-sm font-bold my-auto'>Change Hiring Date:</p>
+          <input type='date' className='py-1 px-2 text-sm border border-2 border-slate-300 text-slate-800 caret-purple-500 focus:outline-none focus:border-purple-500' value={hiringDate} onChange={(e) => setHiringDate(e.target.value)} />
         </div>
         <div className='flex gap-2'>
           <p className='text-sm font-bold my-auto'>Change Termination Date:</p>

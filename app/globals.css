@@ -113,8 +113,16 @@ button {
     background-position: center;
 }
 
-.background-theme-signup {
+.background-theme-adminLogin {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url("/images/hr_signup.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+.background-theme-base {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url("/images/bg_base.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;

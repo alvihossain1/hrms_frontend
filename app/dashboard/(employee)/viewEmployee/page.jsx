@@ -5,7 +5,7 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import ReactPDF, { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
-import { EmployeePDF } from '@/lib/pdf';
+import { EmployeePDF } from '@/lib/employeeDataPdf';
 
 export default function ViewEmployee() {
 

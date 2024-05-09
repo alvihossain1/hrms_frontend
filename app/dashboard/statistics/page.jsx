@@ -1,6 +1,6 @@
 "use client"
 import { getAllTasksStatus, getAttendanceChartData, getEmployeeMinFieldsAPI } from '@/lib/api';
-import { dateFormat } from '@/lib/dateFormat';
+import { dateFormat, defaultDateNow } from '@/lib/dateFormat';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { Bar, Pie } from "react-chartjs-2";
 export default function Charts() {
 
     // INPUT
-    const [month, setMonth] = useState(process());
+    const [month, setMonth] = useState(`${defaultDateNow().split("-")[0]}-${defaultDateNow().split("-")[1]}`);
     const [employeeData, setEmployeeData] = useState({})
     const [attendanceChartData, setAttendanceChartData] = useState({});
     const [tasksChartData, setTasksChartData] = useState({});
@@ -21,16 +21,6 @@ export default function Charts() {
         fetchEmployees();
         fetchTaskChart();
     }, [])
-
-    function process() {
-        const d = new Date();
-        let month = d.getMonth()
-        month = parseInt(month) + 1
-        if (month < 10) {
-            month = "0" + month;
-        }
-        return d.getFullYear() + "-" + month;
-    }
 
     async function fetchEmployees() {
         const response = await getEmployeeMinFieldsAPI();
