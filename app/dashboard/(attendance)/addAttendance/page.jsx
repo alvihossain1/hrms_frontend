@@ -144,7 +144,7 @@ export default function AddAttendance() {
       </div>
       <div>
         <h6 className='mb-2 text-slate-700'>Add Attendance of today - {dateFormat(Date.now())}</h6>
-        {employeeData.status === 200 ? emp_list : <div className='loader'></div>}
+        {employeeData.status === 200 ? emp_list : employeeData.status === 0 ? <p className='text-sm font-bold text-slate-800'>None to record</p> : <div className='loader'></div>}
       </div>
     </div>
   )

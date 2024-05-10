@@ -1,5 +1,5 @@
 "use client"
-import { hrmRegister } from '@/lib/api';
+import { hrmRegisterAPI } from '@/lib/api';
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react'
@@ -40,7 +40,7 @@ export default function AddEmployee() {
             formData.append("user", JSON.stringify(user));
             formData.append("image", profileImage);
 
-            let response = await hrmRegister(formData);
+            let response = await hrmRegisterAPI(formData);
             if (response.status === 200) {
                 toast.success(response.data);
             }

@@ -1,11 +1,12 @@
 import Dashboard from "@/components/Dashboard/Dashboard";
+import RoleAccess from "./roleAccess";
 
 
 export default function Layout({ children }) {
 
-  return (
-    <Dashboard>
-      {children}
-    </Dashboard>
+  return (    
+      <RoleAccess>
+        {children}
+      </RoleAccess>
   );
 }

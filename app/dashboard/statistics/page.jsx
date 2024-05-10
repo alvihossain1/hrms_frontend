@@ -1,5 +1,5 @@
 "use client"
-import { getAllTasksStatus, getAttendanceChartData, getEmployeeMinFieldsAPI } from '@/lib/api';
+import { getAllTasksStatusAPI, getAttendanceChartDataAPI, getEmployeeMinFieldsAPI } from '@/lib/api';
 import { dateFormat, defaultDateNow } from '@/lib/dateFormat';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,13 +29,13 @@ export default function Charts() {
     }
 
     async function fetchAttendanceChart(month) {
-        const response = await getAttendanceChartData(month);
+        const response = await getAttendanceChartDataAPI(month);
         console.log("RES Chart:: ", response);
         setAttendanceChartData(response);
     }
 
     async function fetchTaskChart() {
-        const response = await getAllTasksStatus();
+        const response = await getAllTasksStatusAPI();
         console.log("RES Chart:: ", response);
         setTasksChartData(response);
         // console.log("SPECIAL", response.data.filter((data) => { if(data.taskCompleted) return data }).length)

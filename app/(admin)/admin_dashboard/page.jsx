@@ -1,5 +1,5 @@
 'use client'
-import { adminHRUpdateFieldsAPI, adminHRUpdateModuleAPI, adminHRUpdatePasswordAPI, getAllHrUsers } from '@/lib/api'
+import { adminHRUpdateFieldsAPI, adminHRUpdateModuleAPI, adminHRUpdatePasswordAPI, getAllHrUsersAPI } from '@/lib/api'
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react'
@@ -32,7 +32,7 @@ export default function page() {
   }, [])
 
   async function fetchAllHrUsers() {
-    const response = await getAllHrUsers();
+    const response = await getAllHrUsersAPI();
     console.log(response)
     setHrUsersData(response);
   }
@@ -198,58 +198,58 @@ export default function page() {
       <div>
         <p className='text-sm'>Reset the modular access given to the particular HR</p>
         <div className='py-1'>
-            <p className='text-sm break-all'>Previous Data: {emp.moduleAccess}</p>
+          <p className='text-sm'>Marked green are the modules which currently are accessible to the particular HR</p>
         </div>
         <div className="flex flex-wrap gap-2 py-2">
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, dept_pos: e.target.checked }) }} defaultChecked />
-              <p>Add Departments and Positions</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.dept_pos ? 'text-green-600' : 'text-red-600'}`}>Add Departments and Positions</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <p>Employee</p>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, viewEmployee: e.target.checked }) }} defaultChecked />
-              <p>View Employee</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.viewEmployee ? 'text-green-600' : 'text-red-600'}`}>View Employee</p>
             </div>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, addEmployee: e.target.checked }) }} defaultChecked />
-              <p>Add Employee</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.addEmployee ? 'text-green-600' : 'text-red-600'}`}>Add Employee</p>
             </div>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, updateEmployee: e.target.checked }) }} defaultChecked />
-              <p>Update Employee</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.updateEmployee ? 'text-green-600' : 'text-red-600'}`}>Update Employee</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, salary: e.target.checked }) }} defaultChecked />
-              <p>Salary</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.salary ? 'text-green-600' : 'text-red-600'}`}>Salary</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, attendance: e.target.checked }) }} defaultChecked />
-              <p>Attendance</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.attendance ? 'text-green-600' : 'text-red-600'}`}>Attendance</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, tasks: e.target.checked }) }} defaultChecked />
-              <p>Tasks</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.tasks ? 'text-green-600' : 'text-red-600'}`}>Tasks</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, leave: e.target.checked }) }} defaultChecked />
-              <p>Leave</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.leave ? 'text-green-600' : 'text-red-600'}`}>Leave</p>
             </div>
           </div>
           <div className='flex flex-col gap-2 border-2 border-slate-400 p-2'>
             <div className='flex gap-1'>
               <input type='checkbox' className='w-5' onChange={(e) => { setModuleAccess({ ...moduleAccess, statistics: e.target.checked }) }} defaultChecked />
-              <p>Statistics</p>
+              <p className={`font-bold ${emp?.moduleAccess_tbl?.statistics ? 'text-green-600' : 'text-red-600'}`}>Statistics</p>
             </div>
           </div>
         </div>

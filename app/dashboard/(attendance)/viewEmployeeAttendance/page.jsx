@@ -1,5 +1,5 @@
 "use client"
-import { getEmployeeMinFieldsAPI, getEmployeeMonthlyAttendance } from '@/lib/api';
+import { getEmployeeMinFieldsAPI, getEmployeeMonthlyAttendanceAPI } from '@/lib/api';
 import { dateFormat, defaultDateNow } from '@/lib/dateFormat';
 import { faFile, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,7 +36,7 @@ export default function ViewEmployeeAttendance() {
             toast.info("Select Month");
             return;
         }
-        const response = await getEmployeeMonthlyAttendance({ month: date, employeeId });
+        const response = await getEmployeeMonthlyAttendanceAPI({ month: date, employeeId });
         console.log("RES Attendace Record:: ", response);
         setAttendanceData(response);
     }

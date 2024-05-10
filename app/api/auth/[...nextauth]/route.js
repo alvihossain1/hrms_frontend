@@ -1,17 +1,17 @@
-import { adminLogin, hrmLogin } from "@/lib/api";
+import { adminLoginAPI, hrmLoginAPI } from "@/lib/api";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 var bcrypt = require('bcryptjs');
 
 
 async function HR_Login(loginData) {
-    const response = await hrmLogin(loginData);
+    const response = await hrmLoginAPI(loginData);
     if (response.status === 200) {
         const { email, fname, lname, image_url, userId, password, moduleAccess } = response.data;
         const compare_hash = bcrypt.compareSync(loginData.password, password);
 
         if (compare_hash) {
-            const user = { email, name: `${fname} ${lname}`, image: image_url, userId: userId, module: moduleAccess };
+            const user = { email, name: `${fname} ${lname}`, image: image_url, userId: userId, module: moduleAccess, role: "hr" };
             console.log(user)
             return user;
         }
@@ -28,10 +28,11 @@ async function HR_Login(loginData) {
 
 async function Admin_Login(loginData){
     const dataPost = {email: loginData.email, password: loginData.password};
-    const response = await adminLogin(dataPost)
+    const response = await adminLoginAPI(dataPost)
     if(response.status === 200){
         const data = response.data;
-        const user = {name: data.name, email: data.email, image: data.image_url, userId: data.adminId};
+        const user = {name: data.name, email: data.email, image: data.image_url, userId: data.adminId, role: "admin"};
+        console.log(user)
         return user;
     }
     else{
@@ -65,6 +66,7 @@ export const authOptions = {
                     ...token,
                     userId: user.userId,
                     module: user.module,
+                    role: user.role,
                 };
             }
             return token;
@@ -77,6 +79,7 @@ export const authOptions = {
                     ...session.user,
                     userId: token.userId,
                     module: token.module,
+                    role: token.role,
                 }
             };
         },
