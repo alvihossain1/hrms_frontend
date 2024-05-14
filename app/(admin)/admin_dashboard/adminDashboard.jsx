@@ -13,7 +13,7 @@ export default function AdminDashboard({ children }) {
   const [dropdownNav, setDropdownNav] = useState(false);
 
   async function logOutOnClick() {
-    await signOut()
+    await signOut({ callbackUrl: '/admin_login', redirect: true })
   }
 
   let profile = session?.user ?

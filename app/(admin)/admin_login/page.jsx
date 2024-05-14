@@ -13,18 +13,20 @@ export default function AdminLogin() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [waitingLoader, setWaitingLoader] = useState(false);
+
     const router = useRouter();
-    
+
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if(!email || !password){
-            toast.info("Please enter email and password")
+        if (!email || !password) {
+            toast.info("Please enter email and password");
             return;
         }
 
         try {
+            setWaitingLoader(true);
             const res = await signIn("credentials", {
                 email: email,
                 password: password,
@@ -33,13 +35,16 @@ export default function AdminLogin() {
             });
             if (res.error) {
                 toast.error("Email or Password is incorrect");
+                setWaitingLoader(false);
             }
             else {
                 router.replace("/admin_dashboard");
+                setWaitingLoader(false);
             }
         }
         catch (error) {
             console.log(error);
+            setWaitingLoader(false);
         }
 
     }
@@ -48,6 +53,13 @@ export default function AdminLogin() {
     return (
         <div className="min-h-screen flex justify-center items-center background-theme-adminLogin">
             <CustomToast />
+            {waitingLoader && (
+                <div className="absolute top-0 left-0 right-0 flex justify-center">
+                    <div className='bg-slate-800 px-10 py-2 rounded-b-xl'>
+                        <div className='loader'></div>
+                    </div>
+                </div>
+            )}
             <div className="w-full mx-2 md:w-10/12 lg:w-8/12 xl:w-3/12 p-2 md:p-0 bg-slate-800 rounded-xl overflow-hidden">
                 <form onSubmit={(e) => handleSubmit(e)} className="grid grid-cols-12 p-2 md:p-5">
                     <div className="col-span-12">
@@ -74,7 +86,7 @@ export default function AdminLogin() {
                     </div>
                     <div className="col-span-12">
                         <div className="flex text-yellow-500 gap-1.5 my-4">
-                            <FontAwesomeIcon icon={faGears}></FontAwesomeIcon>                            
+                            <FontAwesomeIcon icon={faGears}></FontAwesomeIcon>
                             <p className="text-sm font-bold">Admin login panel</p>
                         </div>
                     </div>

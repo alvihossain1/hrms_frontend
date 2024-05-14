@@ -75,7 +75,7 @@ export default function Dashboard({ children }) {
     }, []);
 
     async function logOutOnClick() {
-        await signOut()
+        await signOut({ callbackUrl: '/login', redirect: true })
     }
 
     // useEffect(() => {
