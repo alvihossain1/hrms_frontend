@@ -34,12 +34,12 @@ export default function Login() {
                 userType: "hr",
                 redirect: false,
             });
-            if (res.error) {
-                toast.error("Email or Password is incorrect");
+            if (res?.status == 200) {
+                router.replace("/dashboard");
                 setWaitingLoader(false);
             }
-            else {
-                router.replace("/dashboard");
+            else{
+                toast.error(res?.error);
                 setWaitingLoader(false);
             }
         }

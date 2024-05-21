@@ -33,12 +33,12 @@ export default function AdminLogin() {
                 userType: "admin",
                 redirect: false,
             });
-            if (res.error) {
-                toast.error("Email or Password is incorrect");
+            if (res?.status == 200) {
+                router.replace("/admin_dashboard");
                 setWaitingLoader(false);
             }
-            else {
-                router.replace("/admin_dashboard");
+            else{
+                toast.error(res?.error);
                 setWaitingLoader(false);
             }
         }

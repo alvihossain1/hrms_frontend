@@ -16,27 +16,30 @@ async function HR_Login(loginData) {
             return user;
         }
         else {
-            return null;
+            throw new Error('Password is incorrect');
         }
 
     }
-    else {
-        // const defaultData = {email: "admin@gmail.com", name: "Dallas Admin", image: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg"}
-        return null;
+    else if(response.status === 0 && response.data.length === 0) {
+        throw new Error('No user found');
     }
 }
 
 async function Admin_Login(loginData){
     const dataPost = {email: loginData.email, password: loginData.password};
-    const response = await adminLoginAPI(dataPost)
+    const response = await adminLoginAPI(dataPost);
+    console.log("RESPONSE ADMIN", response)
     if(response.status === 200){
         const data = response.data;
         const user = {name: data.name, email: data.email, image: data.image_url, userId: data.adminId, role: "admin"};
         console.log(user)
         return user;
     }
+    else if(response.status === 0 && response.data.length === 0) {
+        throw new Error('No user found');
+    }
     else{
-        return null;
+        throw new Error('Password is incorrect');
     }
 }
 
