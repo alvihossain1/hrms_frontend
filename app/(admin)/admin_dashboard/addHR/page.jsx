@@ -23,6 +23,10 @@ export default function AddEmployee() {
         console.log(moduleAccess);
     }, [moduleAccess])
 
+    function clearAllFields(){
+        setFname(""); setLname(""); setEmail(""); setPassword(""); setProfileImage(""); setModuleAccess(modules);
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -42,6 +46,7 @@ export default function AddEmployee() {
 
             let response = await hrmRegisterAPI(formData);
             if (response.status === 200) {
+                clearAllFields()
                 toast.success(response.data);
             }
             else if (response.status === 300) {

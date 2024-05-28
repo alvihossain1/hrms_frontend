@@ -1,5 +1,5 @@
 'use client'
-import { adminHRUpdateFieldsAPI, adminHRUpdateModuleAPI, adminHRUpdatePasswordAPI, getAllHrUsersAPI } from '@/lib/api'
+import { adminHRUpdateFieldsAPI, adminHRUpdateModuleAPI, adminHRUpdatePasswordAPI, getAllHrUsersAPI, removeHREmployeeAPI } from '@/lib/api'
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react'
@@ -97,7 +97,19 @@ export default function page() {
     setIsUpdate(true)
   }
 
-
+  async function removeEmployeeBtnOnClick(e, emp){
+    e.preventDefault();
+    const data = {userId: emp.userId, image_url: emp.image_url}
+    const response = await removeHREmployeeAPI(data);
+    if(response.status === 200){
+      toast.success("Employee has been removed");
+      setSelectedId(-1);
+      fetchAllHrUsers();
+    }
+    else{
+      toast.info("Delete was not processed.")
+    }
+  }
 
   let hr_list;
   if (hrUsersData.status === 200) {
@@ -185,6 +197,14 @@ export default function page() {
             <div className='mt-1 flex gap-2'>
               <button onClick={() => {setShowModule(!showModule)}} className='py-1.5 px-5 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>{!showModule ? "Yes" : "Close"}</button>
               {showModule && <button onClick={(e) => {updateModuleConfirm(e, emp)}} className='py-1.5 px-4 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Confirm</button>}
+            </div>
+          </div>
+
+          {/* REMOVE Employee */}
+          <div className='mt-4 pt-2 border-t-2 border-slate-200'>
+            <p className='text-sm font-bold my-auto'>Remove Employee?</p>
+            <div className='mt-1'>
+              <button onClick={(e) => removeEmployeeBtnOnClick(e, emp)} className='py-1.5 px-3 bg-slate-700 text-slate-200 hover:bg-purple-500 rounded-sm transition-all duration-300 ease text-sm flex items-center gap-2 shadow-sm shadow-slate-500'>Remove</button>
             </div>
           </div>
 
