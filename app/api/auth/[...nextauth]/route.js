@@ -28,7 +28,6 @@ async function HR_Login(loginData) {
 async function Admin_Login(loginData){
     const dataPost = {email: loginData.email, password: loginData.password};
     const response = await adminLoginAPI(dataPost);
-    console.log("RESPONSE ADMIN", response)
     if(response.status === 200){
         const data = response.data;
         const user = {name: data.name, email: data.email, image: data.image_url, userId: data.adminId, role: "admin"};
@@ -49,8 +48,7 @@ export const authOptions = {
             name: "credentials",
             credentials: {},
             async authorize(credentials) {
-                const loginData = { email: credentials.email, password: credentials.password };                
-                console.log("UserType:", credentials.userType)
+                const loginData = { email: credentials.email, password: credentials.password };
                 if(credentials.userType === "hr"){
                     return HR_Login(loginData);  
                 }
